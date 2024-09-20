@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 20,
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => Navigate.homePage(context),
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       fixedSize: const Size(300, 50),

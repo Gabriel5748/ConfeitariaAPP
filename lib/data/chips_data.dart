@@ -1,10 +1,10 @@
-final preferencias = [
-  "Chocolates",
-  "Balas",
-  "Sem açúcar",
-  "Vegano",
-  "Até R\$ 5,00",
-  "Pirulitos",
-  "Macio",
-  "Crocante",
-];
+Map<String, bool> preferencias = {
+  "Chocolates": false,
+  "Balas": false,
+  "Sem açúcar": false,
+  "Vegano": false,
+  "Até R\$ 5,00": false,
+  "Pirulitos": false,
+  "Macio": false,
+  "Crocante": false,
+};
