@@ -1,11 +1,17 @@
 import 'package:app_restaurante/utils/navigators.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../model/providers.dart';
 
 class CadastroPage extends StatelessWidget {
   const CadastroPage({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final nameController = TextEditingController();
+    final userInfo = Provider.of<UserData>(context);
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -33,6 +39,7 @@ class CadastroPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: TextField(
+                controller: nameController,
                 decoration: InputDecoration(
                   hintStyle: const TextStyle(color: Colors.black),
                   border: OutlineInputBorder(
@@ -42,7 +49,10 @@ class CadastroPage extends StatelessWidget {
               ),
             ),
             OutlinedButton(
-                onPressed: () => Navigate.cadastroPage2(context),
+                onPressed: () {
+                  userInfo.setName(nameController.text);
+                  Navigate.cadastroPage2(context);
+                },
                 child: const Icon(
                   CupertinoIcons.arrow_right_square_fill,
                 ))
