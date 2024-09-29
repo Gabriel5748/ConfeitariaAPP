@@ -15,8 +15,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final doces = Doces();
-  late final List<Doces> listaDoces;
   int selectedIndex = 1;
 
   static final List<Widget> _widgetOptions = <Widget>[
@@ -29,13 +27,6 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       selectedIndex = index;
     });
-  }
-
-  @override
-  void initState() {
-    doces.getDados();
-    listaDoces = doces.docesList ?? [];
-    super.initState();
   }
 
   @override

@@ -2,6 +2,8 @@ import 'package:app_restaurante/model/inputfield.dart';
 import 'package:app_restaurante/utils/navigators.dart';
 import 'package:flutter/material.dart';
 
+import '../data/sweets_data.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -12,6 +14,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
   bool isChecked = false;
+  late final List<Doces> listaDoces;
 
   void submitForm() {
     if (formKey.currentState!.validate()) {
@@ -26,6 +29,12 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       isChecked = !isChecked;
     });
+  }
+
+  @override
+  void initState(){
+    Doces.getDados();
+    super.initState();
   }
 
   @override
@@ -73,7 +82,10 @@ class _LoginPageState extends State<LoginPage> {
                   height: 20,
                 ),
                 ElevatedButton(
-                  onPressed: () => Navigate.homePage(context),
+                  onPressed: () {
+
+                    Navigate.homePage(context);
+                  },
                   style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       fixedSize: const Size(300, 50),
@@ -92,7 +104,9 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text('Dont have an account ?'),
-                    TextButton(onPressed: () => Navigate.cadastroPage(context), child: const Text('Sign up'))
+                    TextButton(
+                        onPressed: () => Navigate.cadastroPage(context),
+                        child: const Text('Sign up'))
                   ],
                 ),
                 const Divider()

@@ -1,6 +1,7 @@
 //Arquivo criado para botar os Navigators aqui
 import 'package:app_restaurante/view/Cadastro/cadastro_page2.dart';
 import 'package:app_restaurante/view/HomePage/home_page.dart';
+import 'package:app_restaurante/view/desc_page.dart';
 import 'package:app_restaurante/view/login_page.dart';
 import 'package:flutter/material.dart';
 
@@ -43,5 +44,10 @@ abstract class Navigate {
   static homePage(BuildContext context) {
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const HomePage()));
+  }
+
+    static descPage(BuildContext context) {
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => const DescPage()));
   }
 }

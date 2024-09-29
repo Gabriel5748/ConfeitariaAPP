@@ -8,9 +8,10 @@ import 'view/login_page.dart';
 void main() {
   runApp(DevicePreview(
       enabled: true,
-      builder: (context) => MultiProvider(
-          providers: [ChangeNotifierProvider(create: (_) => UserData())],
-          child: const MyApp())));
+      builder: (context) => MultiProvider(providers: [
+            ChangeNotifierProvider(create: (_) => UserData()),
+            ChangeNotifierProvider(create: (_) => SweetInfo())
+          ], child: const MyApp())));
 }
 
 class MyApp extends StatelessWidget {
