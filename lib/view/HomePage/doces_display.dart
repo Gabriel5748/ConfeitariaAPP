@@ -39,6 +39,8 @@ class _ListaDocesState extends State<ListaDoces> {
               sweetInfo.setName(index, doce.docesList[index].nome!);
               sweetInfo.setPrice(index, doce.docesList[index].preco!);
               sweetInfo.setDesc(index, doce.docesList[index].desc!);
+              sweetInfo.setImage(index, doce.docesList[index].image!);
+              sweetInfo.setRating(index, doce.docesList[index].rating!);
               Navigate.descPage(context);
             },
             child: Card(
@@ -47,7 +49,7 @@ class _ListaDocesState extends State<ListaDoces> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(
-                    'images/cupcake3.webp',
+                    doce.docesList[index].image!,
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: 150,
