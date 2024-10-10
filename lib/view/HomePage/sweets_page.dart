@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:app_restaurante/view/HomePage/doces_display.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,26 +17,33 @@ class SweetsPage extends StatefulWidget {
 class _SweetsPageState extends State<SweetsPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-              padding: const EdgeInsets.only(
-                left: 20,
-              ),
-              child: Consumer<UserData>(builder: (context, user, child) {
-                return Text(
-                  'Hi, ${user.getName()} 👋',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold),
-                );
-              })),
-          Expanded(child: ListaDoces()),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Consumer<UserData>(builder: (context, user, child) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Hi, ${user.username} 👋',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    IconButton(onPressed: (){}, icon: Icon(CupertinoIcons.search,color: Colors.black,size: 30,))
+                  ],
+                ),
+              );
+            }),
+            Expanded(child: ListaDoces()),
+          ],
+        ),
       ),
     );
   }

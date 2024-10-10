@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:app_restaurante/data/sweets_data.dart';
 import 'package:app_restaurante/view/HomePage/sweets_page.dart';
 import 'package:app_restaurante/view/cart_page.dart';
 import 'package:app_restaurante/view/favorites_page.dart';
@@ -32,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: Scaffold(body: _widgetOptions[selectedIndex])),
+      body: _widgetOptions[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
         onTap: (index) => onItemTap(index),

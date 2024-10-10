@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:app_restaurante/data/sweets_data.dart';
+import 'package:app_restaurante/model/sweet_class.dart';
 import 'package:app_restaurante/utils/navigators.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

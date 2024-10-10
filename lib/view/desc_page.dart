@@ -1,10 +1,15 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last
 
+import 'package:app_restaurante/components/desc_page_components/buttons.dart';
+import 'package:app_restaurante/model/sweet_class.dart';
 import 'package:app_restaurante/model/providers.dart';
 import 'package:app_restaurante/utils/text_style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
+
+import '../components/desc_page_components/expansion_tile.dart';
 
 class DescPage extends StatefulWidget {
   const DescPage({super.key});
@@ -16,6 +21,7 @@ class DescPage extends StatefulWidget {
 class _DescPageState extends State<DescPage> {
   int quantidade = 1;
   late double total;
+  late Doces doce = Doces();
 
   void decrement() {
     setState(() {
@@ -39,22 +45,37 @@ class _DescPageState extends State<DescPage> {
 
   @override
   Widget build(BuildContext context) {
+    // final sweetCart = Provider.of<SweetInfo>(context);
     return Scaffold(
       body: Consumer<SweetInfo>(
         builder: (context, sweet, child) {
           total = double.parse(sweet.sweetPrice!);
           return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                width: double.infinity,
-                height: 400,
-                child: Image.asset(
-                  sweet.sweetImage!,
-                  fit: BoxFit.cover,
+              Stack(children: [
+                SizedBox(
+                  width: double.infinity,
+                  height: 400,
+                  child: Image.asset(
+                    sweet.sweetImage!,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
+                Positioned(
+                    top: 20,
+                    left: 10,
+                    child: IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        icon: Icon(
+                          CupertinoIcons.back,
+                          color: Colors.white,
+                          size: 30,
+                        ))),
+              ]),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
@@ -82,56 +103,8 @@ class _DescPageState extends State<DescPage> {
                 direction: Axis.horizontal,
               ),
               Text('${sweet.sweetDesc}'),
-              // Align(
-              //   alignment: Alignment.bottomRight,
-              //   child: Padding(
-              //     padding: const EdgeInsets.all(20),
-              //     child: ElevatedButton(
-              //         onPressed: () {},
-              //         child: Icon(
-              //           CupertinoIcons.bag,
-              //           color: Colors.white,
-              //           size: 30,
-              //         ),
-              //         style: ElevatedButton.styleFrom(
-              //             backgroundColor: Colors.black,
-              //             padding: const EdgeInsets.all(30),
-              //             shape: const CircleBorder())),
-              //   ),
-              // )
-              Container(
-                width: double.infinity,
-                height: 80,
-                decoration: BoxDecoration(
-                    color: Colors.green[200],
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20))),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    TextButton(
-                        onPressed: () {
-                          decrement();
-                          calculatePrice(
-                              quantidade, double.parse(sweet.sweetPrice!));
-                        },
-                        child: Text('-')),
-                    Text(quantidade.toString()),
-                    TextButton(
-                        onPressed: () {
-                          increment();
-                          calculatePrice(
-                              quantidade, double.parse(sweet.sweetPrice!));
-                        },
-                        child: Text('+')),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Text('Total: \$${total.toString()}'),
-                    )
-                  ],
-                ),
-              )
+              Expanded(child: ExpansionTileDescPage()),
+              DescPageButtons()
             ],
           );
         },
