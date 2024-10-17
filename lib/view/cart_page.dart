@@ -7,6 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../model/sweet_class.dart';
+
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
 
@@ -17,6 +19,8 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   int quantidade = 1;
   double total = 0.00;
+
+
 
   void decrement() {
     setState(() {
@@ -32,18 +36,19 @@ class _CartPageState extends State<CartPage> {
     });
   }
 
-  void calculatePrice(int quantidade, double preco) {
-    setState(() {
-      total = preco * quantidade;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffC77DFF),
       body: Consumer<SweetInfo>(builder: (context, cart, child) {
-        return cart.compras.isNotEmpty
-            ? Column(
+
+        if (cart.compras.isNotEmpty){
+          for(Doces d in cart.compras){
+            total += double.parse(d.preco!);
+          }
+        }
+
+        return Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -115,7 +120,7 @@ class _CartPageState extends State<CartPage> {
                                                 Row(
                                                   children: [
                                                     Text('\$'),
-                                                    Text(cart.compras![index]
+                                                    Text(cart.compras[index]
                                                         .preco!),
                                                   ],
                                                 ),
@@ -183,14 +188,8 @@ class _CartPageState extends State<CartPage> {
                     total: total,
                   )
                 ],
-              )
-            : SizedBox(
-                height: double.infinity,
-                width: double.infinity,
-                child: Image.asset(
-                  'images/empty_cart.jpg',
-                  fit: BoxFit.cover,
-                ));
+              );
+            
       }),
     );
   }

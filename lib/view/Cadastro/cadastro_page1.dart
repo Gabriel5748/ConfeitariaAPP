@@ -13,6 +13,7 @@ class CadastroPage extends StatelessWidget {
     final nameController = TextEditingController();
     final userInfo = Provider.of<UserData>(context);
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 236, 173, 240),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

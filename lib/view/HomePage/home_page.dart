@@ -33,15 +33,16 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: _widgetOptions[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color(0xff7b2cbf),
         currentIndex: selectedIndex,
         onTap: (index) => onItemTap(index),
-        selectedItemColor: Colors.purple[200],
+        selectedItemColor: Colors.red[400],
         items: const [
           BottomNavigationBarItem(
-              label: 'Favoritos', icon: Icon(CupertinoIcons.heart)),
-          BottomNavigationBarItem(label: 'Menu', icon: Icon(Icons.menu)),
+              label: 'Favoritos', icon: Icon(CupertinoIcons.heart,color: Colors.white,)),
+          BottomNavigationBarItem(label: 'Menu', icon: Icon(Icons.menu,color: Colors.white,)),
           BottomNavigationBarItem(
-              label: 'Carrinho', icon: Icon(CupertinoIcons.cart))
+              label: 'Carrinho', icon: Icon(CupertinoIcons.cart,color: Colors.white,))
         ],
       ),
     );

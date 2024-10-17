@@ -1,7 +1,7 @@
 //Botões adicionar favorito e adicionar ao carrinho na página desc_page
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last
 
-import 'package:app_restaurante/model/minhas_compras.dart';
+import 'package:app_restaurante/model/carrinho.dart';
 import 'package:app_restaurante/model/sweet_class.dart';
 import 'package:app_restaurante/model/providers.dart';
 import 'package:flutter/cupertino.dart';

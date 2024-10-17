@@ -1,7 +1,7 @@
 import 'package:app_restaurante/model/sweet_class.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'minhas_compras.dart';
+import 'carrinho.dart';
 
 class UserData extends ChangeNotifier {
   String _username = 'Gabriel';
@@ -91,17 +91,17 @@ class SweetInfo extends ChangeNotifier {
   List<Doces>? get favs => _favs;
 }
 
-class ComprasProvider with ChangeNotifier {
-  final List<MinhasCompras> _compras = [];
+class CarrinhoProvider with ChangeNotifier {
+  final List<MeuCarrinho> _compras = [];
 
-  List<MinhasCompras> get compras => _compras;
+  List<MeuCarrinho> get compras => _compras;
 
-  void adicionarCompra(MinhasCompras compra) {
+  void adicionarCompra(MeuCarrinho compra) {
     _compras.add(compra);
     notifyListeners();
   }
 
-  void removerCompra(MinhasCompras compra) {
+  void removerCompra(MeuCarrinho compra) {
     _compras.remove(compra);
     notifyListeners();
   }

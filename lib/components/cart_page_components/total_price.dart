@@ -13,13 +13,14 @@ class TotalPrice extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 80,
-      decoration: BoxDecoration(color: Colors.blueAccent[200]),
+      decoration: BoxDecoration(color: Color(0xffC77DFF)),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Total'),
+            Expanded(child: Divider()),
+            const Text('Total',style: titleStyle,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

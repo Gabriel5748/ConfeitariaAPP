@@ -41,7 +41,13 @@ class _ExpansionTileDescPageState extends State<ExpansionTileDescPage> {
               secoes[nomeSecao] = changed;
             });
           },
-          children: [Text('Conteúdo da seção $nomeSecao')],
+          children: [
+            Text('Conteúdo da seção $nomeSecao'),
+            Text('Conteúdo da seção $nomeSecao'),
+            Text('Conteúdo da seção $nomeSecao'),
+            Text('Conteúdo da seção $nomeSecao'),
+            Text('Conteúdo da seção $nomeSecao'),
+          ],
         );
       },
     );

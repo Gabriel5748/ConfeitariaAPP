@@ -102,7 +102,7 @@ class Doces {
           rating: 5),
       Doces(
           image: "images/chezzcake.webp",
-          nome: "Chezzcake",
+          nome: "Cheesecake",
           desc:
               "Cheesecake suave e cremoso com cobertura de cerejas frescas e calda brilhante, servido sobre uma base crocante de biscoito",
           preco: '3.00',

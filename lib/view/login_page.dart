@@ -1,8 +1,11 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:app_restaurante/model/chip_class.dart';
 import 'package:app_restaurante/model/providers.dart';
 import 'package:app_restaurante/utils/navigators.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../model/sweet_class.dart';
 
@@ -43,6 +46,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 236, 173, 240),
       body: SafeArea(
         child: Form(
           key: formKey,
@@ -54,13 +58,16 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      'images/bolinho.png',
-                      width: 200,
+                    SizedBox(
+                      width: double.infinity,
                       height: 200,
+                      child: Image.asset(
+                        'images/cake-cup_logo.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     const Text(
-                        'Os melhores doces estão aqui, esperando por você'),
+                        'Os melhores doces estão aqui, esperando por você!'),
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 50, vertical: 20),
@@ -72,6 +79,8 @@ class _LoginPageState extends State<LoginPage> {
                         },
                         controller: emailController,
                         decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Color(0xffC77DFF),
                           prefixIcon: const Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 15),
@@ -97,6 +106,8 @@ class _LoginPageState extends State<LoginPage> {
                         obscureText: true,
                         controller: passwordController,
                         decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Color(0xffC77DFF),
                           prefixIcon: const Padding(
                             padding: EdgeInsets.symmetric(
                                 vertical: 10, horizontal: 15),
@@ -156,7 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         const Text('Dont have an account ?'),
                         TextButton(
-                            onPressed: () => Navigate.cadastroPage(context),
+                            onPressed: () => context.go('/cadastro'),
                             child: const Text('Sign up'))
                       ],
                     ),

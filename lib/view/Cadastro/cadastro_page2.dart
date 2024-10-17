@@ -25,6 +25,7 @@ class CadastroPage2 extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 236, 173, 240),
       body: SafeArea(
         child: Form(
           key: formKey,

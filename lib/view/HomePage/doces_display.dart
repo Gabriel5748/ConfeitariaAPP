@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, use_full_hex_values_for_flutter_colors
 
 import 'package:app_restaurante/model/sweet_class.dart';
 import 'package:app_restaurante/utils/navigators.dart';
@@ -44,6 +44,7 @@ class _ListaDocesState extends State<ListaDoces> {
               Navigate.descPage(context);
             },
             child: Card(
+              color: Color.fromARGB(255, 213, 132, 233),
               shadowColor: Colors.blueAccent[200],
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

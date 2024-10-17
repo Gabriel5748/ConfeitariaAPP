@@ -7,17 +7,18 @@ class CadastroPage5 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 236, 173, 240),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text('Nos conte um pouco sobre você!'),
+            const Text(''),
             const Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                  'Ultima etapa',
+                  'Fale um pouco sobre você!',
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -34,7 +35,7 @@ class CadastroPage5 extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: 'Pensar em algo depois',
+                  hintText: '',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),

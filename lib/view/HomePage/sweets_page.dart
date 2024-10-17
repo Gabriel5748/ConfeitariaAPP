@@ -17,9 +17,10 @@ class SweetsPage extends StatefulWidget {
 class _SweetsPageState extends State<SweetsPage> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+     backgroundColor: Color(0xff9d4edd),
+      body: SafeArea(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

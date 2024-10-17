@@ -16,30 +16,28 @@ class _FavoritesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xffC77DFF), // Fundo roxo
       body: Consumer<SweetInfo>(builder: (context, fav, child) {
-        return fav.favs!.isNotEmpty
-            ? Card(
-                child: ListView.separated(
-                    itemCount: fav.favs!.length,
-                    separatorBuilder: (context, index) => Divider(),
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                          leading: Image.asset(fav.favs![index].image!),
-                          title: Text(fav.favs![index].nome!),
-                          trailing: IconButton(
-                              onPressed: () {
-                                fav.removeFav(index);
-                              },
-                              icon: Icon(CupertinoIcons.trash)));
-                    }),
-              )
-            : SizedBox(
-                height: double.infinity,
-                width: double.infinity,
-                child: Image.asset(
-                  'images/no_favorites.png',
-                  fit: BoxFit.cover,
-                ));
+        return Card(
+          color: Colors.transparent, // Torna o Card transparente
+          elevation: 0, // Remove a sombra do Card (opcional)
+          child: ListView.separated(
+            itemCount: fav.favs!.length,
+            separatorBuilder: (context, index) => Divider(),
+            itemBuilder: (context, index) {
+              return ListTile(
+                leading: Image.asset(fav.favs![index].image!),
+                title: Text(fav.favs![index].nome!),
+                trailing: IconButton(
+                  onPressed: () {
+                    fav.removeFav(index);
+                  },
+                  icon: Icon(CupertinoIcons.trash),
+                ),
+              );
+            },
+          ),
+        );
       }),
     );
   }

@@ -6,6 +6,7 @@ import 'package:app_restaurante/utils/text_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../components/desc_page_components/expansion_tile.dart';
@@ -21,6 +22,7 @@ class _DescPageState extends State<DescPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 196, 138, 200),
       body: Consumer<SweetInfo>(
         builder: (context, sweet, child) {
           return Column(
@@ -41,11 +43,11 @@ class _DescPageState extends State<DescPage> {
                     left: 10,
                     child: IconButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          context.pop(true);
                         },
                         icon: Icon(
                           CupertinoIcons.back,
-                          color: Colors.white,
+                          color: const Color.fromARGB(255, 0, 0, 0),
                           size: 30,
                         ))),
               ]),
