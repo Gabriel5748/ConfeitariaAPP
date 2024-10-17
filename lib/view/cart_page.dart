@@ -17,23 +17,33 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  int quantidade = 1;
   double total = 0.00;
 
+  void decrement(int index, List<Doces> compras) {
+    if (int.parse(compras[index].quantidade) > 1) {
+      setState(() {
+        compras[index].quantidade =
+            (int.parse(compras[index].quantidade) - 1).toString();
 
+        recalcularTotal(compras);
+      });
+    }
+  }
 
-  void decrement() {
+  void increment(int index, List<Doces> compras) {
     setState(() {
-      if (quantidade > 1) {
-        quantidade--;
-      }
+      compras[index].quantidade =
+          (int.parse(compras[index].quantidade) + 1).toString();
+
+      recalcularTotal(compras);
     });
   }
 
-  void increment() {
-    setState(() {
-      quantidade++;
-    });
+  void recalcularTotal(List<Doces> compras) {
+    total = 0.0;
+    for (Doces d in compras) {
+      total += double.parse(d.preco!) * int.parse(d.quantidade);
+    }
   }
 
   @override
@@ -41,155 +51,159 @@ class _CartPageState extends State<CartPage> {
     return Scaffold(
       backgroundColor: Color(0xffC77DFF),
       body: Consumer<SweetInfo>(builder: (context, cart, child) {
-
-        if (cart.compras.isNotEmpty){
-          for(Doces d in cart.compras){
-            total += double.parse(d.preco!);
-          }
-        }
+        // Garante que o total é recalculado ao abrir a página
+        recalcularTotal(cart.compras);
 
         return Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Flexible(
-                    child: ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: cart.compras.length,
-                        itemBuilder: (context, index) {
-                          return Dismissible(
-                            direction: DismissDirection.endToStart,
-                            confirmDismiss: (DismissDirection direction) async {
-                              if (direction == DismissDirection.endToStart) {
-                                return await showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialogCartPage(index: index);
-                                    });
-                              }
-                              return null;
-                            },
-                            key: ValueKey(cart.compras[index]),
-                            background: Card(
-                              color: Colors.red[600],
-                              shadowColor: Colors.black,
-                              elevation: 20,
-                              child: SizedBox(
-                                  width: 400,
-                                  height: 100,
-                                  child: Icon(CupertinoIcons.trash,
-                                      color: Colors.white)),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Card(
-                                shadowColor: Colors.black,
-                                elevation: 20,
-                                child: SizedBox(
-                                  width: 400,
-                                  height: 100,
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 100,
-                                        height: 200,
-                                        child: Image.asset(
-                                          cart.compras[index].image!,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: ListTile(
-                                          title: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(cart.compras![index].nome!),
-                                            ],
-                                          ),
-                                          subtitle: Column(children: [
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text('\$'),
-                                                    Text(cart.compras[index]
-                                                        .preco!),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    CircleAvatar(
-                                                      radius: 15,
-                                                      child: TextButton(
-                                                        onPressed: () =>
-                                                            decrement(),
-                                                        child: Center(
-                                                            child: Text(
-                                                          '-',
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                          ),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        )),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 10),
-                                                      child: Text(quantidade
-                                                          .toString()),
-                                                    ),
-                                                    CircleAvatar(
-                                                      radius: 15,
-                                                      child: TextButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            
-                                                          });
-                                                        
-                                                        },
-                                                        child: Center(
-                                                            child: Text(
-                                                          '+',
-                                                          style: TextStyle(
-                                                            color: Colors.white,
-                                                          ),
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                        )),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                )
-                                              ],
-                                            ),
-                                          ]),
-                                        ),
-                                      ),
-                                    ],
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Flexible(
+              child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: cart.compras.length,
+                  itemBuilder: (context, index) {
+                    return Dismissible(
+                      direction: DismissDirection.endToStart,
+                      confirmDismiss: (DismissDirection direction) async {
+                        if (direction == DismissDirection.endToStart) {
+                          return await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialogCartPage(index: index);
+                              });
+                        }
+                        return null;
+                      },
+                      key: ValueKey(cart.compras[index]),
+                      background: Card(
+                        color: Colors.red[600],
+                        shadowColor: Colors.black,
+                        elevation: 20,
+                        child: SizedBox(
+                            width: 400,
+                            height: 100,
+                            child: Icon(CupertinoIcons.trash,
+                                color: Colors.white)),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Card(
+                          color: Color(0xffcfbaf0),
+                          shadowColor: Colors.black,
+                          elevation: 20,
+                          child: SizedBox(
+                            width: 400,
+                            height: 100,
+                            child: Row(
+                              children: [
+                                SizedBox(
+                                  width: 100,
+                                  height: 200,
+                                  child: Image.asset(
+                                    cart.compras[index].image!,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
-                              ),
+                                Expanded(
+                                  child: ListTile(
+                                    title: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(cart.compras[index].nome!),
+                                      ],
+                                    ),
+                                    subtitle: Column(children: [
+                                      SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text('\$'),
+                                              Text(cart.compras[index].preco!),
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              CircleAvatar(
+                                                backgroundColor:
+                                                    Colors.redAccent[400],
+                                                radius: 15,
+                                                child: TextButton(
+                                                  onPressed: () {
+                                                    decrement(
+                                                        index, cart.compras);
+                                                  },
+                                                  child: Center(
+                                                      child: Text(
+                                                    '-',
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: Colors.black,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  )),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                child: Text(
+                                                  cart.compras[index]
+                                                      .quantidade,
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ),
+                                              CircleAvatar(
+                                                backgroundColor:
+                                                    Colors.redAccent[400],
+                                                radius: 15,
+                                                child: TextButton(
+                                                  onPressed: () {
+                                                    increment(
+                                                        index, cart.compras);
+                                                  },
+                                                  child: Center(
+                                                      child: Text(
+                                                    '+',
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      color: Colors.black,
+                                                    ),
+                                                    textAlign: TextAlign.center,
+                                                  )),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ]),
+                                  ),
+                                ),
+                              ],
                             ),
-                          );
-                        }),
-                  ),
-                  TotalPrice(
-                    total: total,
-                  )
-                ],
-              );
-            
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+            ),
+            TotalPrice(
+              total: total,
+            )
+          ],
+        );
       }),
     );
   }

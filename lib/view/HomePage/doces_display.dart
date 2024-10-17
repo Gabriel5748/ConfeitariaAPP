@@ -38,6 +38,7 @@ class _ListaDocesState extends State<ListaDoces> {
             onTap: () {
               sweetInfo.setName(index, doce.docesList[index].nome!);
               sweetInfo.setPrice(index, doce.docesList[index].preco!);
+              sweetInfo.setQuantidade(index, doce.docesList[index].quantidade!);
               sweetInfo.setDesc(index, doce.docesList[index].desc!);
               sweetInfo.setImage(index, doce.docesList[index].image!);
               sweetInfo.setRating(index, doce.docesList[index].rating!);
