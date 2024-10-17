@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sort_child_properties_last
 
 import 'package:app_restaurante/components/desc_page_components/buttons.dart';
-import 'package:app_restaurante/model/sweet_class.dart';
 import 'package:app_restaurante/model/providers.dart';
 import 'package:app_restaurante/utils/text_style.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,37 +18,11 @@ class DescPage extends StatefulWidget {
 }
 
 class _DescPageState extends State<DescPage> {
-  int quantidade = 1;
-  late double total;
-  late Doces doce = Doces();
-
-  void decrement() {
-    setState(() {
-      if (quantidade > 1) {
-        quantidade--;
-      }
-    });
-  }
-
-  void increment() {
-    setState(() {
-      quantidade++;
-    });
-  }
-
-  void calculatePrice(int quantidade, double preco) {
-    setState(() {
-      total = preco * quantidade;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    // final sweetCart = Provider.of<SweetInfo>(context);
     return Scaffold(
       body: Consumer<SweetInfo>(
         builder: (context, sweet, child) {
-          total = double.parse(sweet.sweetPrice!);
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

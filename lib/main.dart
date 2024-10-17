@@ -10,7 +10,8 @@ void main() {
       enabled: true,
       builder: (context) => MultiProvider(providers: [
             ChangeNotifierProvider(create: (_) => UserData()),
-            ChangeNotifierProvider(create: (_) => SweetInfo())
+            ChangeNotifierProvider(create: (_) => SweetInfo()),
+            ChangeNotifierProvider(create: (_) => ComprasProvider()),
           ], child: const MyApp())));
 }
 

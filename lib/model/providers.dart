@@ -1,6 +1,8 @@
 import 'package:app_restaurante/model/sweet_class.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'minhas_compras.dart';
+
 class UserData extends ChangeNotifier {
   String _username = 'Gabriel';
   String _email = 'gabriel@gmail.com';
@@ -85,6 +87,27 @@ class SweetInfo extends ChangeNotifier {
   String? get sweetDesc => _sweetDesc;
   String? get sweetImage => _sweetImage;
   double? get sweetRating => _sweetRating;
-  List<Doces>? get compras => _compras;
+  List<Doces> get compras => _compras;
   List<Doces>? get favs => _favs;
 }
+
+class ComprasProvider with ChangeNotifier {
+  final List<MinhasCompras> _compras = [];
+
+  List<MinhasCompras> get compras => _compras;
+
+  void adicionarCompra(MinhasCompras compra) {
+    _compras.add(compra);
+    notifyListeners();
+  }
+
+  void removerCompra(MinhasCompras compra) {
+    _compras.remove(compra);
+    notifyListeners();
+  }
+
+  double calcularPrecoTotal() {
+    return _compras.fold(0.0, (total, compra) => total + (double.parse(compra.preco) * compra.quantidade));
+  }
+}
+

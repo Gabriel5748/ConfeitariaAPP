@@ -1,9 +1,11 @@
 import 'sweet_class.dart';
 
-class MinhasCompras{
-  List<Doces> compras = [];
+class MinhasCompras {
+  final String preco;
+  final int quantidade;
+  final List<Doces> _compras = [];
 
-  void addCart(Doces doce){
-    compras.add(doce);
-  }
+  MinhasCompras({required this.preco, required this.quantidade});
+
+  List<Doces> get compras => _compras;
 }

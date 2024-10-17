@@ -1,6 +1,7 @@
 //Botões adicionar favorito e adicionar ao carrinho na página desc_page
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last
 
+import 'package:app_restaurante/model/minhas_compras.dart';
 import 'package:app_restaurante/model/sweet_class.dart';
 import 'package:app_restaurante/model/providers.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +13,7 @@ class DescPageButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final compras = Provider.of<ComprasProvider>(context);
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       child: Consumer<SweetInfo>(builder: (context, sweet, child) {
@@ -38,10 +40,9 @@ class DescPageButtons extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 Doces doce = Doces(
-                  image: sweet.sweetImage,
-                  nome: sweet.sweetName,
-                  preco: sweet.sweetPrice
-                );
+                    image: sweet.sweetImage,
+                    nome: sweet.sweetName,
+                    preco: sweet.sweetPrice);
                 sweet.addCart(doce);
               },
               child: Text('Add to Cart'),
