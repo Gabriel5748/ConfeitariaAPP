@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/providers.dart';
+import '../../services/providers.dart';
 
 class AlertDialogCartPage extends StatelessWidget {
   final int index;
@@ -12,7 +12,7 @@ class AlertDialogCartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SweetInfo>(builder: (context, cart, child) {
+    return Consumer<CarrinhoProvider>(builder: (context, cart, child) {
       return AlertDialog(
         title: Text('Delete'),
         content:

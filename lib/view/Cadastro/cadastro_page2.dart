@@ -1,10 +1,11 @@
 import 'package:app_restaurante/model/validators.dart';
+import 'package:app_restaurante/services/auth.dart';
 import 'package:app_restaurante/utils/navigators.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/providers.dart';
+import '../../services/providers.dart';
 
 class CadastroPage2 extends StatelessWidget {
   const CadastroPage2({super.key});
@@ -16,16 +17,16 @@ class CadastroPage2 extends StatelessWidget {
     final pass2Controller = TextEditingController();
     final formKey = GlobalKey<FormState>();
 
-    void setData(String email,String password) {
+    void setData(String email, String password) {
       if (formKey.currentState!.validate()) {
         userInfo.setEmail(email);
         userInfo.setPassWord(password);
-        Navigate.cadastroPage3(context);
+        // Navigate.cadastroPage3(context);
       }
     }
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 236, 173, 240),
+      backgroundColor: const Color.fromARGB(255, 236, 173, 240),
       body: SafeArea(
         child: Form(
           key: formKey,
@@ -97,7 +98,11 @@ class CadastroPage2 extends StatelessWidget {
               ),
               OutlinedButton(
                   onPressed: () {
-                    setData(emailController.text,pass1Controller.text);
+                    setData(emailController.text, pass1Controller.text);
+                    if (formKey.currentState!.validate()) {
+                      cadastrar(emailController.text, pass1Controller.text);
+                      Navigate.cadastroPage3(context);
+                    }
                   },
                   child: const Icon(
                     CupertinoIcons.arrow_right_square_fill,

@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "1031414238106",
-    "project_id": "confeitariaapp-a52d0",
-    "storage_bucket": "confeitariaapp-a52d0.appspot.com"
+    "project_number": "1050659662760",
+    "project_id": "confeitariaapp-1e193",
+    "storage_bucket": "confeitariaapp-1e193.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1031414238106:android:3aad3c210907127b70c823",
+        "mobilesdk_app_id": "1:1050659662760:android:8a5b19c5cba3160cc88b9d",
         "android_client_info": {
           "package_name": "com.example.app_restaurante"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBmqFaDHRtvZVymyDnapOJv1a1xhc0jJbE"
+          "current_key": "AIzaSyCqnORLTGcORMSgrdBYFpIX8K34HovHOmk"
         }
       ],
       "services": {

@@ -1,4 +1,4 @@
-import 'package:app_restaurante/model/chip_class.dart';
+import 'package:app_restaurante/model/classes/chip_class.dart';
 import 'package:flutter/material.dart';
 
 class Categorias extends StatelessWidget {

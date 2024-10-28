@@ -1,13 +1,13 @@
 // ignore_for_file: prefer_const_constructors, use_full_hex_values_for_flutter_colors
 
-import 'package:app_restaurante/model/sweet_class.dart';
+import 'package:app_restaurante/model/classes/sweet_class.dart';
 import 'package:app_restaurante/utils/navigators.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/providers.dart';
+import '../../services/providers.dart';
 
 class ListaDoces extends StatefulWidget {
   const ListaDoces({super.key});
@@ -17,7 +17,7 @@ class ListaDoces extends StatefulWidget {
 }
 
 class _ListaDocesState extends State<ListaDoces> {
-  final doce = Doces();
+  final doce = Doces(preco: 0.00, quantidade: 1,image: '');
   List<bool> isSelected = List.generate(10, (index) => true);
   void toggleSelected(index) {
     setState(() {

@@ -2,12 +2,11 @@
 
 import 'package:app_restaurante/components/cart_page_components/alert_dialog.dart';
 import 'package:app_restaurante/components/cart_page_components/total_price.dart';
-import 'package:app_restaurante/model/providers.dart';
+import 'package:app_restaurante/model/classes/carrinho_class.dart';
+import 'package:app_restaurante/services/providers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../model/sweet_class.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -19,30 +18,30 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   double total = 0.00;
 
-  void decrement(int index, List<Doces> compras) {
-    if (int.parse(compras[index].quantidade) > 1) {
+  void decrement(int index, List<MeuCarrinho> compras) {
+    if (compras[index].quantidade > 1) {
       setState(() {
         compras[index].quantidade =
-            (int.parse(compras[index].quantidade) - 1).toString();
+            (compras[index].quantidade - 1);
 
         recalcularTotal(compras);
       });
     }
   }
 
-  void increment(int index, List<Doces> compras) {
+  void increment(int index, List<MeuCarrinho> compras) {
     setState(() {
       compras[index].quantidade =
-          (int.parse(compras[index].quantidade) + 1).toString();
+          compras[index].quantidade + 1;
 
       recalcularTotal(compras);
     });
   }
 
-  void recalcularTotal(List<Doces> compras) {
+  void recalcularTotal(List<MeuCarrinho> compras) {
     total = 0.0;
-    for (Doces d in compras) {
-      total += double.parse(d.preco!) * int.parse(d.quantidade);
+    for (MeuCarrinho d in compras) {
+      total += d.preco * d.quantidade;
     }
   }
 
@@ -50,7 +49,7 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffC77DFF),
-      body: Consumer<SweetInfo>(builder: (context, cart, child) {
+      body: Consumer<CarrinhoProvider>(builder: (context, cart, child) {
         // Garante que o total é recalculado ao abrir a página
         recalcularTotal(cart.compras);
 
@@ -102,7 +101,7 @@ class _CartPageState extends State<CartPage> {
                                   width: 100,
                                   height: 200,
                                   child: Image.asset(
-                                    cart.compras[index].image!,
+                                    cart.compras[index].image,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -126,7 +125,7 @@ class _CartPageState extends State<CartPage> {
                                           Row(
                                             children: [
                                               Text('\$'),
-                                              Text(cart.compras[index].preco!),
+                                              Text(cart.compras[index].preco.toStringAsFixed(2)),
                                             ],
                                           ),
                                           Row(
@@ -157,7 +156,7 @@ class _CartPageState extends State<CartPage> {
                                                         horizontal: 10),
                                                 child: Text(
                                                   cart.compras[index]
-                                                      .quantidade,
+                                                      .quantidade.toString(),
                                                   style: TextStyle(
                                                       fontSize: 15,
                                                       fontWeight:

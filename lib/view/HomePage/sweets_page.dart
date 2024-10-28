@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/providers.dart';
+import '../../services/providers.dart';
 
 class SweetsPage extends StatefulWidget {
   const SweetsPage({super.key});

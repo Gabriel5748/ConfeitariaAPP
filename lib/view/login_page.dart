@@ -1,13 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'package:app_restaurante/model/chip_class.dart';
-import 'package:app_restaurante/model/providers.dart';
+import 'package:app_restaurante/model/classes/chip_class.dart';
+import 'package:app_restaurante/services/auth.dart';
+import 'package:app_restaurante/services/providers.dart';
 import 'package:app_restaurante/utils/navigators.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import '../model/sweet_class.dart';
+import '../model/classes/sweet_class.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,7 +33,8 @@ class _LoginPageState extends State<LoginPage> {
 
   void enterApp() {
     if (formKey.currentState!.validate()) {
-      Navigate.homePage(context);
+      // Navigate.homePage(context);
+      login(context, emailController.text, passwordController.text);
     }
   }
 

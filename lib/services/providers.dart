@@ -1,7 +1,7 @@
-import 'package:app_restaurante/model/sweet_class.dart';
+import 'package:app_restaurante/model/classes/carrinho_class.dart';
+import 'package:app_restaurante/model/classes/favorito_class.dart';
+import 'package:app_restaurante/model/classes/sweet_class.dart';
 import 'package:flutter/cupertino.dart';
-
-import 'carrinho.dart';
 
 class UserData extends ChangeNotifier {
   String _username = 'Gabriel';
@@ -30,24 +30,23 @@ class UserData extends ChangeNotifier {
 
 class SweetInfo extends ChangeNotifier {
   late String _sweetName;
-  late String _sweetPrice;
-  late String _sweetQuantidade;
+  late double _sweetPrice;
+  late int _sweetQuantidade;
   late String _sweetDesc;
   late String _sweetImage;
   late double _sweetRating;
-  final List<Doces> _compras = [];
-  final List<Doces> _favs = [];
 
   void setName(int index, String name) {
     _sweetName = name;
     notifyListeners();
   }
 
-  void setPrice(int index, String price) {
+  void setPrice(int index, double price) {
     _sweetPrice = price;
     notifyListeners();
   }
-  void setQuantidade(int index, String quantidade){
+
+  void setQuantidade(int index, int quantidade) {
     _sweetQuantidade = quantidade;
     notifyListeners();
   }
@@ -67,7 +66,18 @@ class SweetInfo extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addCart(Doces item) {
+  String get sweetName => _sweetName;
+  double get sweetPrice => _sweetPrice;
+  int get sweetQuantidade => _sweetQuantidade;
+  String? get sweetDesc => _sweetDesc;
+  String get sweetImage => _sweetImage;
+  double? get sweetRating => _sweetRating;
+}
+
+class CarrinhoProvider with ChangeNotifier {
+  final List<MeuCarrinho> _compras = [];
+
+  void addCart(MeuCarrinho item) {
     _compras.add(item);
     notifyListeners();
   }
@@ -77,7 +87,13 @@ class SweetInfo extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addFav(Doces item) {
+  List<MeuCarrinho> get compras => _compras;
+}
+
+class FavoritoProvider with ChangeNotifier {
+  final List<MeusFavoritos> _favs = [];
+
+  void addFav(MeusFavoritos item) {
     _favs.add(item);
     notifyListeners();
   }
@@ -87,33 +103,5 @@ class SweetInfo extends ChangeNotifier {
     notifyListeners();
   }
 
-  String? get sweetName => _sweetName;
-  String? get sweetPrice => _sweetPrice;
-  String? get sweetQuantidade => _sweetQuantidade;
-  String? get sweetDesc => _sweetDesc;
-  String? get sweetImage => _sweetImage;
-  double? get sweetRating => _sweetRating;
-  List<Doces> get compras => _compras;
-  List<Doces>? get favs => _favs;
+  List<MeusFavoritos> get favs => _favs;
 }
-
-class CarrinhoProvider with ChangeNotifier {
-  final List<MeuCarrinho> _compras = [];
-
-  List<MeuCarrinho> get compras => _compras;
-
-  void adicionarCompra(MeuCarrinho compra) {
-    _compras.add(compra);
-    notifyListeners();
-  }
-
-  void removerCompra(MeuCarrinho compra) {
-    _compras.remove(compra);
-    notifyListeners();
-  }
-
-  double calcularPrecoTotal() {
-    return _compras.fold(0.0, (total, compra) => total + (double.parse(compra.preco) * compra.quantidade));
-  }
-}
-

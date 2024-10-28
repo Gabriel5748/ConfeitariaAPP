@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:app_restaurante/model/providers.dart';
+import 'package:app_restaurante/services/providers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -17,7 +17,7 @@ class _FavoritesState extends State<Favorites> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xffC77DFF), // Fundo roxo
-      body: Consumer<SweetInfo>(builder: (context, fav, child) {
+      body: Consumer<FavoritoProvider>(builder: (context, fav, child) {
         return Card(
           color: Colors.transparent, // Torna o Card transparente
           elevation: 0, // Remove a sombra do Card (opcional)
