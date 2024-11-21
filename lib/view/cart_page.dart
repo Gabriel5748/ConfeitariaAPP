@@ -111,7 +111,7 @@ class _CartPageState extends State<CartPage> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(cart.compras[index].nome!),
+                                        Text(cart.compras[index].nome),
                                       ],
                                     ),
                                     subtitle: Column(children: [

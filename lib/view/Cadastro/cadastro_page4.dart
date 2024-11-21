@@ -1,6 +1,6 @@
-import 'package:app_restaurante/utils/navigators.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../data/chips_data.dart';
 
@@ -16,7 +16,7 @@ class _CadastroPage4State extends State<CadastroPage4> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 236, 173, 240),
+      backgroundColor: const Color.fromARGB(255, 236, 173, 240),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -63,7 +63,7 @@ class _CadastroPage4State extends State<CadastroPage4> {
               );
             }),
             OutlinedButton(
-                onPressed: () => Navigate.cadastroPage5(context),
+                onPressed: () => context.go('/cad5'),
                 child: const Icon(
                   CupertinoIcons.arrow_right_square_fill,
                 ))

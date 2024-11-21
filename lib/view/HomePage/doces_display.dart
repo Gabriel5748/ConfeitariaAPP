@@ -1,10 +1,10 @@
 // ignore_for_file: prefer_const_constructors, use_full_hex_values_for_flutter_colors
 
 import 'package:app_restaurante/model/classes/sweet_class.dart';
-import 'package:app_restaurante/utils/navigators.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/providers.dart';
@@ -37,12 +37,12 @@ class _ListaDocesState extends State<ListaDoces> {
           return GestureDetector(
             onTap: () {
               sweetInfo.setName(index, doce.docesList[index].nome!);
-              sweetInfo.setPrice(index, doce.docesList[index].preco!);
-              sweetInfo.setQuantidade(index, doce.docesList[index].quantidade!);
+              sweetInfo.setPrice(index, doce.docesList[index].preco);
+              sweetInfo.setQuantidade(index, doce.docesList[index].quantidade);
               sweetInfo.setDesc(index, doce.docesList[index].desc!);
-              sweetInfo.setImage(index, doce.docesList[index].image!);
+              sweetInfo.setImage(index, doce.docesList[index].image);
               sweetInfo.setRating(index, doce.docesList[index].rating!);
-              Navigate.descPage(context);
+              context.go('/desc_page');
             },
             child: Card(
               color: Color.fromARGB(255, 213, 132, 233),
@@ -51,7 +51,7 @@ class _ListaDocesState extends State<ListaDoces> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Image.asset(
-                    doce.docesList[index].image!,
+                    doce.docesList[index].image,
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: 150,

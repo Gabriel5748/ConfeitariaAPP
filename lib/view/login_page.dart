@@ -1,14 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:app_restaurante/model/classes/chip_class.dart';
-import 'package:app_restaurante/services/auth.dart';
 import 'package:app_restaurante/services/providers.dart';
-import 'package:app_restaurante/utils/navigators.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../model/classes/sweet_class.dart';
+import '../model/classes/user_class.dart';
+import '../services/auth.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -33,8 +33,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void enterApp() {
     if (formKey.currentState!.validate()) {
-      // Navigate.homePage(context);
-      login(context, emailController.text, passwordController.text);
+      Auth().login(context, emailController.text, passwordController.text);
     }
   }
 
@@ -64,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
                       width: double.infinity,
                       height: 200,
                       child: Image.asset(
-                        'images/cake-cup_logo.png',
+                        '/assets/images/cake-cup_logo.png',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -74,11 +73,11 @@ class _LoginPageState extends State<LoginPage> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 50, vertical: 20),
                       child: TextFormField(
-                        validator: (value) {
-                          if (user.email != value) {
-                            return 'Email e/ou senha inválido';
-                          }
-                        },
+                        // validator: (value) {
+                        //   if (user.email != value) {
+                        //     return 'Email e/ou senha inválido';
+                        //   }
+                        // },
                         controller: emailController,
                         decoration: InputDecoration(
                           filled: true,
@@ -104,6 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                           if (user.password != value) {
                             return 'Email e/ou senha inválido';
                           }
+                          return null;
                         },
                         obscureText: true,
                         controller: passwordController,
@@ -149,7 +149,12 @@ class _LoginPageState extends State<LoginPage> {
                       height: 20,
                     ),
                     ElevatedButton(
-                      onPressed: () => enterApp(),
+                      onPressed: () {
+                        final usuario = Usuario('1', 'as', emailController.text,
+                            passwordController.text);
+                        usuario.adicionarUsuario(usuario);
+                        enterApp();
+                      },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
                           fixedSize: const Size(300, 50),

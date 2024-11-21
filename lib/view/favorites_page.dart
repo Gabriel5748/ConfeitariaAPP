@@ -22,12 +22,12 @@ class _FavoritesState extends State<Favorites> {
           color: Colors.transparent, // Torna o Card transparente
           elevation: 0, // Remove a sombra do Card (opcional)
           child: ListView.separated(
-            itemCount: fav.favs!.length,
+            itemCount: fav.favs.length,
             separatorBuilder: (context, index) => Divider(),
             itemBuilder: (context, index) {
               return ListTile(
-                leading: Image.asset(fav.favs![index].image!),
-                title: Text(fav.favs![index].nome!),
+                leading: Image.asset(fav.favs[index].image),
+                title: Text(fav.favs[index].nome),
                 trailing: IconButton(
                   onPressed: () {
                     fav.removeFav(index);

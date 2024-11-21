@@ -34,7 +34,7 @@ class _DescPageState extends State<DescPage> {
                   width: double.infinity,
                   height: 400,
                   child: Image.asset(
-                    sweet.sweetImage!,
+                    sweet.sweetImage,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -43,7 +43,7 @@ class _DescPageState extends State<DescPage> {
                     left: 10,
                     child: IconButton(
                         onPressed: () {
-                          context.pop(true);
+                          context.go('/home_page');
                         },
                         icon: Icon(
                           CupertinoIcons.back,
@@ -57,7 +57,7 @@ class _DescPageState extends State<DescPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${sweet.sweetName}',
+                      sweet.sweetName,
                       style: titleStyle,
                     ),
                     Text(

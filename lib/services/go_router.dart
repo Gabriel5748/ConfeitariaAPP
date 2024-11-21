@@ -1,4 +1,9 @@
 // GoRouter configuration
+import 'package:app_restaurante/view/Cadastro/cadastro_page2.dart';
+import 'package:app_restaurante/view/Cadastro/cadastro_page3.dart';
+import 'package:app_restaurante/view/Cadastro/cadastro_page4.dart';
+import 'package:app_restaurante/view/Cadastro/cadastro_page5.dart';
+import 'package:app_restaurante/view/desc_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 
@@ -17,6 +22,11 @@ final router = GoRouter(
       path: '/cadastro',
       builder: (context, state) => const CadastroPage(),
     ),
+    GoRoute(path: '/cad1',builder: ((context, state) => const CadastroPage())),
+    GoRoute(path: '/cad2',builder: ((context, state) => const CadastroPage2())),
+    GoRoute(path: '/cad3',builder: ((context, state) => const CadastroPage3())),
+    GoRoute(path: '/cad4',builder: ((context, state) => const CadastroPage4())),
+    GoRoute(path: '/cad5',builder: ((context, state) => const CadastroPage5())),
     GoRoute(
         path: '/home_page',
         builder: (context, state) => const HomePage(),
@@ -41,6 +51,7 @@ final router = GoRouter(
                   child: child,
                 );
               });
-        })
+        }),
+        GoRoute(path: '/desc_page',builder: ((context, state) => const DescPage()))
   ],
 );

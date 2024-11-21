@@ -1,13 +1,13 @@
-import 'package:app_restaurante/utils/navigators.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class CadastroPage3 extends StatelessWidget {
   const CadastroPage3({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 236, 173, 240),
+      backgroundColor: const Color.fromARGB(255, 236, 173, 240),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -106,7 +106,7 @@ class CadastroPage3 extends StatelessWidget {
               ),
             ),
             OutlinedButton(
-                onPressed: () => Navigate.cadastroPage4(context),
+                onPressed: () => context.go('/cad4'),
                 child: const Icon(
                   CupertinoIcons.arrow_right_square_fill,
                 ))

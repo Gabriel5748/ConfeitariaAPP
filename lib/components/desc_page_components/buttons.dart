@@ -2,7 +2,6 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last
 import 'package:app_restaurante/model/classes/carrinho_class.dart';
 import 'package:app_restaurante/model/classes/favorito_class.dart';
-import 'package:app_restaurante/model/classes/sweet_class.dart';
 import 'package:app_restaurante/services/auth.dart';
 import 'package:app_restaurante/services/providers.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,7 +29,7 @@ class DescPageButtons extends StatelessWidget {
                   // image: sweet.sweetImage,
                 );
                 fav.addFav(doce);
-                sendData(context, doce);
+                // Auth().sendData(context, doce);
               },
               child: Icon(CupertinoIcons.heart),
               style: ElevatedButton.styleFrom(

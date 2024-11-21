@@ -29,7 +29,7 @@ class Doces {
   static void getDados() {
     _docesList = [
       Doces(
-          image: "images/alfajor.webp",
+          image: "/assets/images/alfajor.webp",
           nome: "Alfajor",
           desc:
               "Doce tradicional argentino feito de duas camadas de massa com recheio de doce de leite e cobertura de chocolate",
@@ -38,7 +38,7 @@ class Doces {
           categoria: "Doce",
           rating: 4.0),
       Doces(
-          image: "images/bem_casado.webp",
+          image: "/assets/images/bem_casado.webp",
           nome: "Bem Casado",
           desc:
               "Doce de massa macia recheado com doce de leite, tradicional em casamentos",
@@ -47,7 +47,7 @@ class Doces {
           categoria: "Doce",
           rating: 3.0),
       Doces(
-          image: "images/brownie.webp",
+          image: "/assets/images/brownie.webp",
           nome: "Brownie",
           desc:
               "Delicioso bolo de chocolate, úmido por dentro e com uma leve crocância por fora",
@@ -56,7 +56,7 @@ class Doces {
           categoria: "Doce",
           rating: 5.0),
       Doces(
-          image: "images/torta_holandesa.webp",
+          image: "/assets/images/torta_holandesa.webp",
           nome: "Torta Holandesa",
           desc:
               "Sobremesa gelada com base de biscoito e cobertura de chocolate",
@@ -65,7 +65,7 @@ class Doces {
           categoria: "Torta",
           rating: 4.5),
       Doces(
-          image: "images/pudim.webp",
+          image: "/assets/images/pudim.webp",
           nome: "Pudim",
           desc: "Clássico pudim de leite condensado com calda de caramelo",
           preco: 7.00,
@@ -73,7 +73,7 @@ class Doces {
           categoria: "Doce",
           rating: 3.5),
       Doces(
-          image: "images/cupcake.webp",
+          image: "/assets/images/cupcake.webp",
           nome: "Cupcake",
           desc:
               "Mini bolo recheado e decorado com cobertura, perfeito para qualquer ocasião",
@@ -82,7 +82,7 @@ class Doces {
           categoria: "Doce",
           rating: 5.0),
       Doces(
-          image: "images/torta_alema.webp",
+          image: "/assets/images/torta_alema.webp",
           nome: "Torta Alemã",
           desc: "Torta gelada de creme, biscoitos e cobertura de chocolate",
           preco: 8.50,
@@ -90,7 +90,7 @@ class Doces {
           categoria: "Torta",
           rating: 3.0),
       Doces(
-          image: "images/bombocado.webp",
+          image: "/assets/images/bombocado.webp",
           nome: "Bombocado",
           desc: "Pequeno doce de coco com uma textura macia e sabor delicioso",
           preco: 2.50,
@@ -98,7 +98,7 @@ class Doces {
           categoria: "Doce",
           rating: 2.5),
       Doces(
-          image: "images/chocolate_quente.webp",
+          image: "/assets/images/chocolate_quente.webp",
           nome: "Chocolate Quente",
           desc: "Bebida quente e cremosa feita com chocolate derretido e leite",
           preco: 5.00,
@@ -106,7 +106,7 @@ class Doces {
           categoria: "Bebida",
           rating: 5),
       Doces(
-          image: "images/chezzcake.webp",
+          image: "assets/images/chezzcake.webp",
           nome: "Cheesecake",
           desc:
               "Cheesecake suave e cremoso com cobertura de cerejas frescas e calda brilhante, servido sobre uma base crocante de biscoito",

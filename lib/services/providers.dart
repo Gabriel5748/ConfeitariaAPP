@@ -1,6 +1,5 @@
 import 'package:app_restaurante/model/classes/carrinho_class.dart';
 import 'package:app_restaurante/model/classes/favorito_class.dart';
-import 'package:app_restaurante/model/classes/sweet_class.dart';
 import 'package:flutter/cupertino.dart';
 
 class UserData extends ChangeNotifier {

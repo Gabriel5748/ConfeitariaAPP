@@ -1,8 +1,8 @@
 import 'package:app_restaurante/model/validators.dart';
 import 'package:app_restaurante/services/auth.dart';
-import 'package:app_restaurante/utils/navigators.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/providers.dart';
@@ -100,8 +100,8 @@ class CadastroPage2 extends StatelessWidget {
                   onPressed: () {
                     setData(emailController.text, pass1Controller.text);
                     if (formKey.currentState!.validate()) {
-                      cadastrar(emailController.text, pass1Controller.text);
-                      Navigate.cadastroPage3(context);
+                      Auth().cadastrar(emailController.text, pass1Controller.text);
+                      context.go('/cad3');
                     }
                   },
                   child: const Icon(

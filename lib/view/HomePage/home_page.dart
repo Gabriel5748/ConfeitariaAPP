@@ -6,6 +6,8 @@ import 'package:app_restaurante/view/favorites_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../services/auth.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -31,6 +33,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(onPressed: () => Auth().logOut(context), icon: Icon(Icons.house)),
+      ),
       body: _widgetOptions[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xff7b2cbf),

@@ -1,6 +1,7 @@
-import 'package:app_restaurante/utils/navigators.dart';
+import 'package:app_restaurante/view/login_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import '../../services/providers.dart';
@@ -13,7 +14,7 @@ class CadastroPage extends StatelessWidget {
     final nameController = TextEditingController();
     final userInfo = Provider.of<UserData>(context);
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 236, 173, 240),
+      backgroundColor: const Color.fromARGB(255, 236, 173, 240),
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -52,7 +53,7 @@ class CadastroPage extends StatelessWidget {
             OutlinedButton(
                 onPressed: () {
                   userInfo.setName(nameController.text);
-                  Navigate.cadastroPage2(context);
+                  context.go('/cad2');
                 },
                 child: const Icon(
                   CupertinoIcons.arrow_right_square_fill,
