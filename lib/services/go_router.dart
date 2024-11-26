@@ -22,14 +22,20 @@ final router = GoRouter(
       path: '/cadastro',
       builder: (context, state) => const CadastroPage(),
     ),
-    GoRoute(path: '/cad1',builder: ((context, state) => const CadastroPage())),
-    GoRoute(path: '/cad2',builder: ((context, state) => const CadastroPage2())),
-    GoRoute(path: '/cad3',builder: ((context, state) => const CadastroPage3())),
-    GoRoute(path: '/cad4',builder: ((context, state) => const CadastroPage4())),
-    GoRoute(path: '/cad5',builder: ((context, state) => const CadastroPage5())),
+    GoRoute(path: '/cad1', builder: ((context, state) => const CadastroPage())),
+    GoRoute(
+        path: '/cad2', builder: ((context, state) => const CadastroPage2())),
+    GoRoute(
+        path: '/cad3', builder: ((context, state) => const CadastroPage3())),
+    GoRoute(
+        path: '/cad4', builder: ((context, state) => const CadastroPage4())),
+    GoRoute(
+        path: '/cad5', builder: ((context, state) => const CadastroPage5())),
     GoRoute(
         path: '/home_page',
-        builder: (context, state) => const HomePage(),
+        builder: (context, state) {
+          return HomePage();
+        },
         pageBuilder: (context, state) {
           return CustomTransitionPage(
               key: state.pageKey,
@@ -52,6 +58,6 @@ final router = GoRouter(
                 );
               });
         }),
-        GoRoute(path: '/desc_page',builder: ((context, state) => const DescPage()))
+    GoRoute(path: '/desc_page', builder: ((context, state) => const DescPage()))
   ],
 );

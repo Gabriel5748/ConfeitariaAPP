@@ -34,7 +34,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: () => Auth().logOut(context), icon: Icon(Icons.house)),
+        backgroundColor: Color(0xff9d4edd),
+        leading: IconButton(
+            onPressed: () => Auth().logOut(context), icon: Icon(Icons.house)),
       ),
       body: _widgetOptions[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -44,10 +46,23 @@ class _HomePageState extends State<HomePage> {
         selectedItemColor: Colors.red[400],
         items: const [
           BottomNavigationBarItem(
-              label: 'Favoritos', icon: Icon(CupertinoIcons.heart,color: Colors.white,)),
-          BottomNavigationBarItem(label: 'Menu', icon: Icon(Icons.menu,color: Colors.white,)),
+              label: 'Favoritos',
+              icon: Icon(
+                CupertinoIcons.heart,
+                color: Colors.white,
+              )),
           BottomNavigationBarItem(
-              label: 'Carrinho', icon: Icon(CupertinoIcons.cart,color: Colors.white,))
+              label: 'Menu',
+              icon: Icon(
+                Icons.menu,
+                color: Colors.white,
+              )),
+          BottomNavigationBarItem(
+              label: 'Carrinho',
+              icon: Icon(
+                CupertinoIcons.cart,
+                color: Colors.white,
+              ))
         ],
       ),
     );

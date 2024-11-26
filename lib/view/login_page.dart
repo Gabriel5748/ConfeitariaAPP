@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 import '../model/classes/sweet_class.dart';
 import '../model/classes/user_class.dart';
 import '../services/auth.dart';
+import '../services/auth_db.dart';
+import 'forgot_password.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -40,7 +42,13 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     Doces.getDados();
+    List<Map<String, dynamic>> docesJson = Doces.toJsonList();
     DocesCategoria.getDados();
+    List<Map<String, dynamic>> categoriasJson = DocesCategoria.toJsonList();
+
+    AuthDB().adicionarItensCardapio(docesJson);
+    AuthDB().adicionarItensCategoria(categoriasJson);
+
     super.initState();
   }
 
@@ -99,12 +107,12 @@ class _LoginPageState extends State<LoginPage> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 50, vertical: 20),
                       child: TextFormField(
-                        validator: (value) {
-                          if (user.password != value) {
-                            return 'Email e/ou senha inválido';
-                          }
-                          return null;
-                        },
+                        // validator: (value) {
+                        //   if (user.password != value) {
+                        //     return 'Email e/ou senha inválido';
+                        //   }
+                        //   return null;
+                        // },
                         obscureText: true,
                         controller: passwordController,
                         decoration: InputDecoration(
@@ -139,7 +147,11 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                         TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => ForgotPassword());
+                            },
                             child: const Text(
                               'Forgot password ?',
                             ))
@@ -150,9 +162,13 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        final usuario = Usuario('1', 'as', emailController.text,
-                            passwordController.text);
-                        usuario.adicionarUsuario(usuario);
+                        // final usuario = Usuario('2', user.username, emailController.text,
+                        //     passwordController.text);
+                        final usuario = Usuario(user.username,
+                            emailController.text, passwordController.text);
+                        // usuario.adicionarUsuario(usuario);
+                        AuthDB().adicionarUsuario(usuario);
+                        // AuthDB().sendUserData(usuario.toJson());
                         enterApp();
                       },
                       style: ElevatedButton.styleFrom(

@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
 import 'package:app_restaurante/components/cart_page_components/alert_dialog.dart';
-import 'package:app_restaurante/components/cart_page_components/total_price.dart';
 import 'package:app_restaurante/model/classes/carrinho_class.dart';
+import 'package:app_restaurante/services/auth_db.dart';
 import 'package:app_restaurante/services/providers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../utils/text_style.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -21,8 +23,7 @@ class _CartPageState extends State<CartPage> {
   void decrement(int index, List<MeuCarrinho> compras) {
     if (compras[index].quantidade > 1) {
       setState(() {
-        compras[index].quantidade =
-            (compras[index].quantidade - 1);
+        compras[index].quantidade = (compras[index].quantidade - 1);
 
         recalcularTotal(compras);
       });
@@ -31,8 +32,7 @@ class _CartPageState extends State<CartPage> {
 
   void increment(int index, List<MeuCarrinho> compras) {
     setState(() {
-      compras[index].quantidade =
-          compras[index].quantidade + 1;
+      compras[index].quantidade = compras[index].quantidade + 1;
 
       recalcularTotal(compras);
     });
@@ -125,7 +125,8 @@ class _CartPageState extends State<CartPage> {
                                           Row(
                                             children: [
                                               Text('\$'),
-                                              Text(cart.compras[index].preco.toStringAsFixed(2)),
+                                              Text(cart.compras[index].preco
+                                                  .toStringAsFixed(2)),
                                             ],
                                           ),
                                           Row(
@@ -155,8 +156,8 @@ class _CartPageState extends State<CartPage> {
                                                     const EdgeInsets.symmetric(
                                                         horizontal: 10),
                                                 child: Text(
-                                                  cart.compras[index]
-                                                      .quantidade.toString(),
+                                                  cart.compras[index].quantidade
+                                                      .toString(),
                                                   style: TextStyle(
                                                       fontSize: 15,
                                                       fontWeight:
@@ -198,8 +199,63 @@ class _CartPageState extends State<CartPage> {
                     );
                   }),
             ),
-            TotalPrice(
-              total: total,
+            Container(
+              width: double.infinity,
+              height: 80,
+              decoration: BoxDecoration(color: Color(0xffC77DFF)),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(child: Divider()),
+                    const Text(
+                      'Total',
+                      style: titleStyle,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '\$${total.toStringAsFixed(2)}',
+                          style: titleStyle,
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            List<Map<String, dynamic>> carrinhoJson =
+                                cart.compras.map((item) {
+                              return {
+                                'nome': item.nome,
+                                'image': item.image,
+                                'preco': item.preco,
+                                'quantidade': item.quantidade,
+                              };
+                            }).toList();
+
+                            // Salvando no banco de dados
+                            AuthDB().adicionarUsuarioPedido(carrinhoJson);
+                          },
+                          child: Row(
+                            children: [
+                              Text('Checkout'),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Icon(CupertinoIcons.arrow_right)
+                            ],
+                          ),
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.redAccent[400],
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 15, horizontal: 30),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15))),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
             )
           ],
         );
