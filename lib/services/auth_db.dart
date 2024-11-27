@@ -18,10 +18,8 @@ class AuthDB {
           FirebaseFirestore.instance.collection('usuarios');
 
       // Verifica se o usuário já existe
-      QuerySnapshot resultado = await usuarios
-          .where('email',
-              isEqualTo: usuario.email)
-          .get();
+      QuerySnapshot resultado =
+          await usuarios.where('email', isEqualTo: usuario.email).get();
 
       if (resultado.docs.isNotEmpty) {
         print('Usuário já existe: ${usuario.email}');
@@ -29,6 +27,7 @@ class AuthDB {
       }
 
       final docRef = usuarios.doc();
+      print(docRef);
       await docRef.set(usuario.toJson());
 
       print('Usuário adicionado com sucesso com UID: ${docRef.id}');
@@ -86,33 +85,92 @@ class AuthDB {
   //Ver com o Plotz amanhã
 
   Future<void> adicionarUsuarioPedido(
-      List<Map<String, dynamic>> pedidos) async {
-    try {
-      final User? user = _auth.currentUser;
+    List<Map<String, dynamic>> pedidos) async {
+  try {
+    final User? user = _auth.currentUser;
 
-      if (user == null) {
-        print('Erro: Usuário não autenticado.');
-        return;
-        
-      }
-
-      final String uid = user.uid;
-
-      DocumentReference usuarioDoc = _firestore.collection('usuarios').doc(uid);
-
-      DocumentSnapshot usuarioSnapshot = await usuarioDoc.get();
-
-      if (!usuarioSnapshot.exists) {
-        await usuarioDoc.set({'criadoEm': FieldValue.serverTimestamp()});
-      }
-
-      for (var pedido in pedidos) {
-        await usuarioDoc.collection('pedidos').add(pedido);
-      }
-
-      print('Pedidos adicionados com sucesso para o usuário: $uid');
-    } catch (e) {
-      print('Erro ao adicionar pedidos: $e');
+    if (user == null) {
+      print('Erro: Usuário não autenticado.');
+      return;
     }
+
+    final String email = user.email ?? ''; // Usa o e-mail do usuário para buscar o documento
+
+    // Consulta para encontrar o documento do usuário baseado no e-mail
+    QuerySnapshot querySnapshot = await _firestore
+        .collection('usuarios')
+        .where('email', isEqualTo: email)
+        .get();
+
+    if (querySnapshot.docs.isEmpty) {
+      print('Erro: Documento do usuário não encontrado.');
+      return;
+    }
+
+    // Obtém o primeiro documento encontrado (assumindo que o e-mail seja único)
+    DocumentSnapshot usuarioSnapshot = querySnapshot.docs.first;
+
+    // Referência para a subcoleção "pedidos"
+    CollectionReference pedidosRef =
+        usuarioSnapshot.reference.collection('pedidos');
+
+    // Adiciona cada pedido como um documento separado na subcoleção
+    for (Map<String, dynamic> pedido in pedidos) {
+      await pedidosRef.add(pedido);
+    }
+
+    print(
+        'Pedidos adicionados na subcoleção "pedidos" para o documento com ID: ${usuarioSnapshot.id}');
+  } catch (e) {
+    print('Erro ao adicionar pedidos: $e');
   }
+}
+
+Future<void> excluirPedidoPorCriterio(String criterio) async {
+  try {
+    final User? user = _auth.currentUser;
+
+    if (user == null) {
+      print('Erro: Usuário não autenticado.');
+      return;
+    }
+
+    final String email = user.email ?? '';
+
+    QuerySnapshot querySnapshot = await _firestore
+        .collection('usuarios')
+        .where('email', isEqualTo: email)
+        .get();
+
+    if (querySnapshot.docs.isEmpty) {
+      print('Erro: Documento do usuário não encontrado.');
+      return;
+    }
+
+    DocumentSnapshot usuarioSnapshot = querySnapshot.docs.first;
+
+    CollectionReference pedidosRef =
+        usuarioSnapshot.reference.collection('pedidos');
+
+    // Consulta para encontrar pedidos que correspondam ao critério
+    QuerySnapshot pedidosSnapshot = await pedidosRef
+        .where('nome', isEqualTo: criterio)
+        .get();
+
+    if (pedidosSnapshot.docs.isEmpty) {
+      print('Erro: Pedido não encontrado.');
+      return;
+    }
+
+    // Exclui os pedidos encontrados
+    for (DocumentSnapshot pedido in pedidosSnapshot.docs) {
+      await pedido.reference.delete();
+      print('Pedido com ID ${pedido.id} excluído.');
+    }
+  } catch (e) {
+    print('Erro ao excluir pedido: $e');
+  }
+}
+
+
 }

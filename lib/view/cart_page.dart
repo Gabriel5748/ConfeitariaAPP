@@ -229,6 +229,7 @@ class _CartPageState extends State<CartPage> {
                                 'image': item.image,
                                 'preco': item.preco,
                                 'quantidade': item.quantidade,
+                                'data_hora': DateTime.now()
                               };
                             }).toList();
 

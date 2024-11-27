@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import '../../services/auth_db.dart';
 import '../../services/providers.dart';
 
 class AlertDialogCartPage extends StatelessWidget {
@@ -20,6 +20,7 @@ class AlertDialogCartPage extends StatelessWidget {
         actions: [
           ElevatedButton(
               onPressed: () {
+                AuthDB().excluirPedidoPorCriterio(cart.compras[index].nome);
                 cart.removeCart(index);
                 Navigator.of(context).pop();
               },
