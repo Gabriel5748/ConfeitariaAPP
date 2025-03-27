@@ -1,266 +1,253 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:app_restaurante/components/cart_page_components/alert_dialog.dart';
-import 'package:app_restaurante/model/classes/carrinho_class.dart';
-import 'package:app_restaurante/services/auth_db.dart';
 import 'package:app_restaurante/services/providers.dart';
+import 'package:app_restaurante/theme/app_theme.dart';
+import 'package:app_restaurante/model/classes/carrinho_class.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
-import '../utils/text_style.dart';
-
-class CartPage extends StatefulWidget {
+class CartPage extends StatelessWidget {
   const CartPage({super.key});
-
-  @override
-  State<CartPage> createState() => _CartPageState();
-}
-
-class _CartPageState extends State<CartPage> {
-  double total = 0.00;
-
-  void decrement(int index, List<MeuCarrinho> compras) {
-    if (compras[index].quantidade > 1) {
-      setState(() {
-        compras[index].quantidade = (compras[index].quantidade - 1);
-
-        recalcularTotal(compras);
-      });
-    }
-  }
-
-  void increment(int index, List<MeuCarrinho> compras) {
-    setState(() {
-      compras[index].quantidade = compras[index].quantidade + 1;
-
-      recalcularTotal(compras);
-    });
-  }
-
-  void recalcularTotal(List<MeuCarrinho> compras) {
-    total = 0.0;
-    for (MeuCarrinho d in compras) {
-      total += d.preco * d.quantidade;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffC77DFF),
-      body: Consumer<CarrinhoProvider>(builder: (context, cart, child) {
-        // Garante que o total é recalculado ao abrir a página
-        recalcularTotal(cart.compras);
+      backgroundColor: AppTheme.backgroundColor,
+      appBar: AppBar(
+        backgroundColor: AppTheme.primaryColor,
+        title: Text(
+          'Meu Carrinho',
+          style: AppTheme.titleStyle.copyWith(color: AppTheme.textColor),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () => context.go('/'),
+        ),
+      ),
+      body: Consumer<CartProvider>(
+        builder: (context, cart, child) {
+          if (cart.cartItems.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    CupertinoIcons.cart_badge_minus,
+                    size: 64,
+                    color: AppTheme.primaryColor.withOpacity(0.5),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    'Carrinho vazio',
+                    style: AppTheme.subtitleStyle.copyWith(
+                      color: AppTheme.primaryColor.withOpacity(0.5),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Adicione itens ao carrinho para vê-los aqui',
+                    style: AppTheme.bodyTextStyle.copyWith(
+                      color: Colors.grey,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            );
+          }
 
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Flexible(
-              child: ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: cart.compras.length,
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: cart.cartItems.length,
                   itemBuilder: (context, index) {
+                    final doce = cart.cartItems[index];
                     return Dismissible(
+                      key: Key(doce.nome ?? ''),
                       direction: DismissDirection.endToStart,
-                      confirmDismiss: (DismissDirection direction) async {
-                        if (direction == DismissDirection.endToStart) {
-                          return await showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialogCartPage(index: index);
-                              });
-                        }
-                        return null;
-                      },
-                      key: ValueKey(cart.compras[index]),
-                      background: Card(
-                        color: Colors.red[600],
-                        shadowColor: Colors.black,
-                        elevation: 20,
-                        child: SizedBox(
-                            width: 400,
-                            height: 100,
-                            child: Icon(CupertinoIcons.trash,
-                                color: Colors.white)),
+                      background: Container(
+                        alignment: Alignment.centerRight,
+                        padding: const EdgeInsets.only(right: 20),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        child: const Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                        ),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Card(
-                          color: Color(0xffcfbaf0),
-                          shadowColor: Colors.black,
-                          elevation: 20,
-                          child: SizedBox(
-                            width: 400,
-                            height: 100,
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 100,
-                                  height: 200,
-                                  child: Image.asset(
-                                    cart.compras[index].image,
-                                    fit: BoxFit.cover,
-                                  ),
+                      onDismissed: (direction) {
+                        cart.removeFromCart(index);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('${doce.nome} removido do carrinho'),
+                            backgroundColor: AppTheme.primaryColor,
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                        );
+                      },
+                      child: GestureDetector(
+                        onTap: () {
+                          context.read<SweetInfo>().updateDoce(
+                                nome: doce.nome ?? '',
+                                preco: doce.preco,
+                                quantidade: doce.quantidade,
+                                desc: doce.desc ?? '',
+                                image: doce.image,
+                                rating: doce.rating ?? 0.0,
+                              );
+                          context.push('/desc');
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 16),
+                          decoration: AppTheme.cardDecoration,
+                          child: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: const BorderRadius.horizontal(
+                                  left: Radius.circular(15),
                                 ),
-                                Expanded(
-                                  child: ListTile(
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(cart.compras[index].nome),
-                                      ],
-                                    ),
-                                    subtitle: Column(children: [
-                                      SizedBox(
-                                        height: 10,
+                                child: Image.asset(
+                                  doce.image,
+                                  width: 120,
+                                  height: 120,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        doce.nome ?? '',
+                                        style: AppTheme.subtitleStyle,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
+                                      const SizedBox(height: 8),
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Row(
                                             children: [
-                                              Text('\$'),
-                                              Text(cart.compras[index].preco
-                                                  .toStringAsFixed(2)),
+                                              IconButton(
+                                                onPressed: () {
+                                                  if (doce.quantidade > 1) {
+                                                    cart.updateQuantity(index, doce.quantidade - 1);
+                                                  }
+                                                },
+                                                icon: Icon(
+                                                  Icons.remove_circle_outline,
+                                                  color: AppTheme.primaryColor,
+                                                ),
+                                              ),
+                                              Container(
+                                                padding: const EdgeInsets.symmetric(
+                                                  horizontal: 12,
+                                                  vertical: 4,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  color: AppTheme.primaryColor.withOpacity(0.1),
+                                                  borderRadius: BorderRadius.circular(8),
+                                                ),
+                                                child: Text(
+                                                  '${doce.quantidade}',
+                                                  style: AppTheme.bodyTextStyle,
+                                                ),
+                                              ),
+                                              IconButton(
+                                                onPressed: () {
+                                                  cart.updateQuantity(index, doce.quantidade + 1);
+                                                },
+                                                icon: Icon(
+                                                  Icons.add_circle_outline,
+                                                  color: AppTheme.primaryColor,
+                                                ),
+                                              ),
                                             ],
                                           ),
-                                          Row(
-                                            children: [
-                                              CircleAvatar(
-                                                backgroundColor:
-                                                    Colors.redAccent[400],
-                                                radius: 15,
-                                                child: TextButton(
-                                                  onPressed: () {
-                                                    decrement(
-                                                        index, cart.compras);
-                                                  },
-                                                  child: Center(
-                                                      child: Text(
-                                                    '-',
-                                                    style: TextStyle(
-                                                      fontSize: 20,
-                                                      color: Colors.black,
-                                                    ),
-                                                    textAlign: TextAlign.center,
-                                                  )),
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                        horizontal: 10),
-                                                child: Text(
-                                                  cart.compras[index].quantidade
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ),
-                                              CircleAvatar(
-                                                backgroundColor:
-                                                    Colors.redAccent[400],
-                                                radius: 15,
-                                                child: TextButton(
-                                                  onPressed: () {
-                                                    increment(
-                                                        index, cart.compras);
-                                                  },
-                                                  child: Center(
-                                                      child: Text(
-                                                    '+',
-                                                    style: TextStyle(
-                                                      fontSize: 20,
-                                                      color: Colors.black,
-                                                    ),
-                                                    textAlign: TextAlign.center,
-                                                  )),
-                                                ),
-                                              ),
-                                            ],
-                                          )
+                                          Text(
+                                            'R\$ ${(doce.preco * doce.quantidade).toStringAsFixed(2)}',
+                                            style: AppTheme.titleStyle.copyWith(
+                                              color: AppTheme.primaryColor,
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                    ]),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     );
-                  }),
-            ),
-            Container(
-              width: double.infinity,
-              height: 80,
-              decoration: BoxDecoration(color: Color(0xffC77DFF)),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(child: Divider()),
-                    const Text(
-                      'Total',
-                      style: titleStyle,
+                  },
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 10,
+                      offset: const Offset(0, -5),
                     ),
+                  ],
+                ),
+                child: Column(
+                  children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '\$${total.toStringAsFixed(2)}',
-                          style: titleStyle,
+                          'Total',
+                          style: AppTheme.subtitleStyle,
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            List<Map<String, dynamic>> carrinhoJson =
-                                cart.compras.map((item) {
-                              return {
-                                'nome': item.nome,
-                                'image': item.image,
-                                'preco': item.preco,
-                                'quantidade': item.quantidade,
-                                'data_hora': DateTime.now()
-                              };
-                            }).toList();
-
-                            // Salvando no banco de dados
-                            AuthDB().adicionarUsuarioPedido(carrinhoJson);
-                          },
-                          child: Row(
-                            children: [
-                              Text('Checkout'),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Icon(CupertinoIcons.arrow_right)
-                            ],
+                        Text(
+                          'R\$ ${cart.total.toStringAsFixed(2)}',
+                          style: AppTheme.titleStyle.copyWith(
+                            color: AppTheme.primaryColor,
                           ),
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.redAccent[400],
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 15, horizontal: 30),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15))),
-                        )
+                        ),
                       ],
-                    )
+                    ),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          // Implementar checkout
+                        },
+                        style: AppTheme.primaryButtonStyle,
+                        child: Text(
+                          'Finalizar Pedido',
+                          style: AppTheme.subtitleStyle.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
-            )
-          ],
-        );
-      }),
+            ],
+          );
+        },
+      ),
     );
   }
 }

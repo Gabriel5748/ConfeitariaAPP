@@ -22,7 +22,7 @@ class Doces {
         _nome = nome,
         _desc = desc,
         _preco = preco,
-        _quantidade = 1,
+        _quantidade = quantidade,
         _categoria = categoria,
         _rating = rating;
 
@@ -143,3 +143,6 @@ class Doces {
   String? get categoria => _categoria;
   double? get rating => _rating;
 }
+
+// A classe Sweet agora é apenas um alias para Doces
+typedef Sweet = Doces;

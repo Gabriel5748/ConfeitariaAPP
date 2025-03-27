@@ -5,8 +5,10 @@ import 'package:app_restaurante/view/cart_page.dart';
 import 'package:app_restaurante/view/favorites_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import '../../services/auth.dart';
+import 'package:go_router/go_router.dart';
+import 'package:app_restaurante/theme/app_theme.dart';
+import 'package:provider/provider.dart';
+import 'package:app_restaurante/services/providers.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,6 +19,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 1;
+  bool isSearching = false;
+  final TextEditingController _searchController = TextEditingController();
 
   static final List<Widget> _widgetOptions = <Widget>[
     Favorites(),
@@ -30,39 +34,105 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void _showLogoutDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'Confirmar Saída',
+            style: AppTheme.subtitleStyle,
+          ),
+          content: Text(
+            'Tem certeza que deseja sair?',
+            style: AppTheme.bodyTextStyle,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(
+                'Cancelar',
+                style: TextStyle(color: Colors.grey),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                context.go('/login');
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppTheme.primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: Text(
+                'Sair',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Color(0xff9d4edd),
-        leading: IconButton(
-            onPressed: () => Auth().logOut(context), icon: Icon(Icons.house)),
-      ),
-      body: _widgetOptions[selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Color(0xff7b2cbf),
-        currentIndex: selectedIndex,
-        onTap: (index) => onItemTap(index),
-        selectedItemColor: Colors.red[400],
-        items: const [
-          BottomNavigationBarItem(
-              label: 'Favoritos',
-              icon: Icon(
-                CupertinoIcons.heart,
-                color: Colors.white,
-              )),
-          BottomNavigationBarItem(
-              label: 'Menu',
-              icon: Icon(
-                Icons.menu,
-                color: Colors.white,
-              )),
-          BottomNavigationBarItem(
-              label: 'Carrinho',
-              icon: Icon(
-                CupertinoIcons.cart,
-                color: Colors.white,
-              ))
+      backgroundColor: AppTheme.backgroundColor,
+      body: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: AppTheme.primaryGradient,
+              borderRadius: const BorderRadius.vertical(
+                bottom: Radius.circular(30),
+              ),
+            ),
+            child: Column(
+              children: [
+                const SizedBox(height: 40),
+                Consumer<UserData>(
+                  builder: (context, user, child) {
+                    return Text(
+                      'Olá, ${user.username}',
+                      style: AppTheme.titleStyle.copyWith(
+                        color: Colors.white,
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: TextField(
+                    onChanged: (value) {
+                      context.read<HomeProvider>().updateSearchQuery(value);
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Pesquisar doces...',
+                      border: InputBorder.none,
+                      icon: Icon(
+                        Icons.search,
+                        color: AppTheme.primaryColor,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: ListaDoces(),
+          ),
         ],
       ),
     );

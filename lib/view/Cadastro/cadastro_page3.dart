@@ -7,110 +7,233 @@ class CadastroPage3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 236, 173, 240),
+      backgroundColor: Color(0xFFF9C6D1), // Rosa Pastel
       body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Text('Nos diga onde você mora'),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  'Digite seu endereço',
-                  style: TextStyle(
-                      color: Colors.black,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                'Nos diga onde você mora',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFFA8D8E8), // Azul Claro
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Digite seu endereço',
+                    style: TextStyle(
+                      color: Color(0xFFE5C07B), // Dourado Claro
                       fontSize: 20,
-                      fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  '3/5',
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.w800),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 50, right: 20, bottom: 10, top: 10),
-                  child: SizedBox(
-                    width: 200,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Enter your city name',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Color(0xFFA8D8E8), // Azul Claro
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Text(
+                      '3/5',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFF2E2D2), // Bege Claro
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Digite sua cidade',
+                            hintStyle: TextStyle(
+                              color: Color(0xFFF8D0A4).withOpacity(0.7), // Pêssego Claro
+                            ),
+                            border: InputBorder.none,
+                            icon: Icon(Icons.location_city, color: Color(0xFFF8D0A4)),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  width: 100,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'State',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFF2E2D2), // Bege Claro
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: Offset(0, 5),
+                          ),
+                        ],
                       ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 50, right: 20, bottom: 10, top: 10),
-                  child: SizedBox(
-                    width: 200,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Enter your street name',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Estado',
+                            hintStyle: TextStyle(
+                              color: Color(0xFFF8D0A4).withOpacity(0.7), // Pêssego Claro
+                            ),
+                            border: InputBorder.none,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  width: 100,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Number',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
+                ],
+              ),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFF2E2D2), // Bege Claro
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Digite sua rua',
+                            hintStyle: TextStyle(
+                              color: Color(0xFFF8D0A4).withOpacity(0.7), // Pêssego Claro
+                            ),
+                            border: InputBorder.none,
+                            icon: Icon(Icons.add_road, color: Color(0xFFF8D0A4)),
+                          ),
+                        ),
                       ),
                     ),
                   ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Color(0xFFF2E2D2), // Bege Claro
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.1),
+                            blurRadius: 10,
+                            offset: Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                        child: TextField(
+                          decoration: InputDecoration(
+                            hintText: 'Número',
+                            hintStyle: TextStyle(
+                              color: Color(0xFFF8D0A4).withOpacity(0.7), // Pêssego Claro
+                            ),
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Container(
+                decoration: BoxDecoration(
+                  color: Color(0xFFF2E2D2), // Bege Claro
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 10,
+                      offset: Offset(0, 5),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 50, right: 20, top: 10),
-              child: SizedBox(
-                width: double.infinity,
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Apartment,suite,or unit number (optional)',
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Apartamento, bloco ou complemento (opcional)',
+                      hintStyle: TextStyle(
+                        color: Color(0xFFF8D0A4).withOpacity(0.7), // Pêssego Claro
+                      ),
+                      border: InputBorder.none,
+                      icon: Icon(Icons.home, color: Color(0xFFF8D0A4)),
                     ),
                   ),
                 ),
               ),
-            ),
-            OutlinedButton(
+              SizedBox(height: 30),
+              ElevatedButton(
                 onPressed: () => context.go('/cad4'),
-                child: const Icon(
-                  CupertinoIcons.arrow_right_square_fill,
-                ))
-          ],
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFA8D8E8), // Azul Claro
+                  padding: EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Próximo',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    Icon(
+                      CupertinoIcons.arrow_right,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
