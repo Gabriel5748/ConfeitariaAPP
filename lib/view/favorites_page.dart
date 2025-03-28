@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import '../components/custom_bottom_bar.dart';
 
 class FavoritesPage extends StatelessWidget {
   const FavoritesPage({super.key});
@@ -22,7 +23,7 @@ class FavoritesPage extends StatelessWidget {
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
-          onPressed: () => context.go('/'),
+          onPressed: () => context.go('/home'),
         ),
       ),
       body: Consumer<FavoritesProvider>(
@@ -107,60 +108,94 @@ class FavoritesPage extends StatelessWidget {
                           image: doce.image,
                           rating: doce.rating ?? 0.0,
                         );
-                    context.push('/desc');
+                    context.push('/home/desc');
                   },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 16),
                     decoration: AppTheme.cardDecoration,
-                    child: Row(
+                    child: Stack(
                       children: [
-                        ClipRRect(
-                          borderRadius: const BorderRadius.horizontal(
-                            left: Radius.circular(15),
-                          ),
-                          child: Image.asset(
-                            doce.image,
-                            width: 120,
-                            height: 120,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  doce.nome ?? '',
-                                  style: AppTheme.subtitleStyle,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const SizedBox(height: 8),
-                                Row(
+                        Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: const BorderRadius.horizontal(
+                                left: Radius.circular(15),
+                              ),
+                              child: Image.asset(
+                                doce.image,
+                                width: 120,
+                                height: 120,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Icon(
-                                      Icons.star,
-                                      color: AppTheme.highlightColor,
-                                      size: 16,
-                                    ),
-                                    const SizedBox(width: 4),
                                     Text(
-                                      '${doce.rating?.toStringAsFixed(1) ?? '0.0'}',
-                                      style: AppTheme.bodyTextStyle,
+                                      doce.nome ?? '',
+                                      style: AppTheme.subtitleStyle,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.star,
+                                          color: AppTheme.highlightColor,
+                                          size: 16,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Text(
+                                          '${doce.rating?.toStringAsFixed(1) ?? '0.0'}',
+                                          style: AppTheme.bodyTextStyle,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      'R\$ ${doce.preco.toStringAsFixed(2)}',
+                                      style: AppTheme.titleStyle.copyWith(
+                                        color: AppTheme.primaryColor,
+                                      ),
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'R\$ ${doce.preco.toStringAsFixed(2)}',
-                                  style: AppTheme.titleStyle.copyWith(
-                                    color: AppTheme.primaryColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Positioned(
+                          right: 0,
+                          bottom: 0,
+                          child: IconButton(
+                            icon: Icon(
+                              Icons.delete_outline,
+                              color: Colors.red,
+                            ),
+                            onPressed: () {
+                              favorites.toggleFavorite(
+                                nome: doce.nome ?? '',
+                                preco: doce.preco,
+                                quantidade: doce.quantidade,
+                                desc: doce.desc ?? '',
+                                image: doce.image,
+                                rating: doce.rating ?? 0.0,
+                              );
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('${doce.nome} removido dos favoritos'),
+                                  backgroundColor: AppTheme.primaryColor,
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                              ],
-                            ),
+                              );
+                            },
                           ),
                         ),
                       ],
@@ -172,6 +207,7 @@ class FavoritesPage extends StatelessWidget {
           );
         },
       ),
+      bottomNavigationBar: const CustomBottomBar(selectedIndex: 0),
     );
   }
 }

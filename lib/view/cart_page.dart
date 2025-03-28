@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import '../components/custom_bottom_bar.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -23,7 +24,7 @@ class CartPage extends StatelessWidget {
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
-          onPressed: () => context.go('/'),
+          onPressed: () => context.go('/home'),
         ),
       ),
       body: Consumer<CartProvider>(
@@ -104,7 +105,7 @@ class CartPage extends StatelessWidget {
                                 image: doce.image,
                                 rating: doce.rating ?? 0.0,
                               );
-                          context.push('/desc');
+                          context.push('/home/desc');
                         },
                         child: Container(
                           margin: const EdgeInsets.only(bottom: 16),
@@ -176,11 +177,34 @@ class CartPage extends StatelessWidget {
                                               ),
                                             ],
                                           ),
-                                          Text(
-                                            'R\$ ${(doce.preco * doce.quantidade).toStringAsFixed(2)}',
-                                            style: AppTheme.titleStyle.copyWith(
-                                              color: AppTheme.primaryColor,
-                                            ),
+                                          Row(
+                                            children: [
+                                              Text(
+                                                'R\$ ${(doce.preco * doce.quantidade).toStringAsFixed(2)}',
+                                                style: AppTheme.titleStyle.copyWith(
+                                                  color: AppTheme.primaryColor,
+                                                ),
+                                              ),
+                                              IconButton(
+                                                icon: Icon(
+                                                  Icons.delete_outline,
+                                                  color: Colors.red,
+                                                ),
+                                                onPressed: () {
+                                                  cart.removeFromCart(index);
+                                                  ScaffoldMessenger.of(context).showSnackBar(
+                                                    SnackBar(
+                                                      content: Text('${doce.nome} removido do carrinho'),
+                                                      backgroundColor: AppTheme.primaryColor,
+                                                      behavior: SnackBarBehavior.floating,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(10),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
@@ -248,6 +272,7 @@ class CartPage extends StatelessWidget {
           );
         },
       ),
+      bottomNavigationBar: const CustomBottomBar(selectedIndex: 2),
     );
   }
 }

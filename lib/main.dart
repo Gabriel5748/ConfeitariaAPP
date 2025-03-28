@@ -7,6 +7,7 @@ import 'package:app_restaurante/view/cart_page.dart';
 import 'package:app_restaurante/view/desc_page.dart';
 import 'package:app_restaurante/view/favorites_page.dart';
 import 'package:app_restaurante/view/login_page.dart';
+import 'package:app_restaurante/view/profile_page.dart';
 import 'package:app_restaurante/view/Cadastro/cadastro_page1.dart';
 import 'package:app_restaurante/view/Cadastro/cadastro_page2.dart';
 import 'package:app_restaurante/view/Cadastro/cadastro_page3.dart';
@@ -20,10 +21,13 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  final userData = UserData();
+  await userData.initialize();
+
   runApp(DevicePreview(
       enabled: true,
       builder: (context) => MultiProvider(providers: [
-            ChangeNotifierProvider(create: (_) => UserData()),
+            ChangeNotifierProvider.value(value: userData),
             ChangeNotifierProvider(create: (_) => SweetInfo()),
             ChangeNotifierProvider(create: (_) => CarrinhoProvider()),
             ChangeNotifierProvider(create: (_) => FavoritoProvider()),
@@ -41,8 +45,14 @@ final _router = GoRouter(
       builder: (context, state) => LoginPage(),
     ),
     GoRoute(
-      path: '/',
+      path: '/home',
       builder: (context, state) => SweetsPage(),
+      routes: [
+        GoRoute(
+          path: 'desc',
+          builder: (context, state) => DescPage(),
+        ),
+      ],
     ),
     GoRoute(
       path: '/favorites',
@@ -53,8 +63,8 @@ final _router = GoRouter(
       builder: (context, state) => CartPage(),
     ),
     GoRoute(
-      path: '/desc',
-      builder: (context, state) => DescPage(),
+      path: '/profile',
+      builder: (context, state) => ProfilePage(),
     ),
     GoRoute(
       path: '/cad1',

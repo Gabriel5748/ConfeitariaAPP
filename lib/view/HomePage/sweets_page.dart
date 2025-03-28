@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:go_router/go_router.dart';
+import '../../components/custom_bottom_bar.dart';
 
 class SweetsPage extends StatefulWidget {
   const SweetsPage({super.key});
@@ -16,22 +17,8 @@ class SweetsPage extends StatefulWidget {
 }
 
 class _SweetsPageState extends State<SweetsPage> {
-  int selectedIndex = 1;
   bool isSearching = false;
   final TextEditingController _searchController = TextEditingController();
-
-  void onItemTap(int index) {
-    setState(() {
-      selectedIndex = index;
-      if (index == 0) {
-        context.go('/favorites');
-      } else if (index == 1) {
-        context.go('/');
-      } else if (index == 2) {
-        context.go('/cart');
-      }
-    });
-  }
 
   void _showLogoutDialog() {
     showDialog(
@@ -84,7 +71,7 @@ class _SweetsPageState extends State<SweetsPage> {
           : Consumer<UserData>(
               builder: (context, userData, child) {
                 return Text(
-                  'Bem vindo ao CakeCup ${userData.username}',
+                  'Bem vindo ao CakeCup ${userData.username}!',
                   style: AppTheme.titleStyle.copyWith(
                     color: AppTheme.textColor,
                     fontSize: 20,
@@ -118,30 +105,7 @@ class _SweetsPageState extends State<SweetsPage> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: AppTheme.primaryColor,
-        currentIndex: selectedIndex,
-        onTap: onItemTap,
-        selectedItemColor: AppTheme.textColor,
-        unselectedItemColor: AppTheme.textColor.withOpacity(0.7),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.heart),
-            activeIcon: Icon(CupertinoIcons.heart_fill),
-            label: 'Favoritos',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            activeIcon: Icon(Icons.home),
-            label: 'Menu',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(CupertinoIcons.cart),
-            activeIcon: Icon(CupertinoIcons.cart_fill),
-            label: 'Carrinho',
-          ),
-        ],
-      ),
+      bottomNavigationBar: const CustomBottomBar(selectedIndex: 1),
     );
   }
 }
@@ -185,7 +149,7 @@ class ListaDoces extends StatelessWidget {
                   image: doce.image,
                   rating: doce.rating ?? 0.0,
                 );
-                context.push('/desc');
+                context.push('/home/desc');
               },
               child: Container(
                 decoration: AppTheme.cardDecoration,

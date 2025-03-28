@@ -2,14 +2,24 @@ import 'package:app_restaurante/model/classes/carrinho_class.dart';
 import 'package:app_restaurante/model/classes/favorito_class.dart';
 import 'package:app_restaurante/model/classes/sweet_class.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:app_restaurante/services/user_service.dart';
+import 'package:app_restaurante/model/user.dart';
 
 class UserData extends ChangeNotifier {
   String _username = '';
   String _email = '';
   String _password = '';
+  String? _address;
+  String? _phone;
+  List<String>? _preferences;
+  String? _about;
+  UserService? _userService;
 
-  // Lista para armazenar usuários cadastrados
-  static final List<Map<String, String>> _usuariosCadastrados = [];
+  Future<void> initialize() async {
+    final prefs = await SharedPreferences.getInstance();
+    _userService = UserService(prefs);
+  }
 
   void setName(String nome) {
     _username = nome;
@@ -26,37 +36,87 @@ class UserData extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setAddress(String address) {
+    _address = address;
+    notifyListeners();
+  }
+
+  void setPhone(String phone) {
+    _phone = phone;
+    notifyListeners();
+  }
+
+  void setPreferences(List<String> preferences) {
+    _preferences = preferences;
+    notifyListeners();
+  }
+
+  void setAbout(String about) {
+    _about = about;
+    notifyListeners();
+  }
+
   // Método para cadastrar um novo usuário
-  void cadastrarUsuario() {
+  Future<void> cadastrarUsuario() async {
     if (_username.isNotEmpty && _email.isNotEmpty && _password.isNotEmpty) {
-      _usuariosCadastrados.add({
-        'username': _username,
-        'email': _email,
-        'password': _password,
-      });
-      notifyListeners();
+      try {
+        if (_userService == null) {
+          await initialize();
+        }
+        
+        final user = User(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          name: _username,
+          email: _email,
+          password: _password,
+          address: _address,
+          phone: _phone,
+          preferences: _preferences,
+          about: _about,
+        );
+        
+        await _userService!.saveUser(user);
+        notifyListeners();
+      } catch (e) {
+        print('Erro ao cadastrar usuário: $e');
+        throw Exception('Falha ao cadastrar usuário');
+      }
     }
   }
 
   // Método para verificar credenciais
-  bool verificarCredenciais(String email, String senha) {
-    final usuario = _usuariosCadastrados.firstWhere(
-      (user) => user['email'] == email && user['password'] == senha,
-      orElse: () => {},
-    );
-
-    if (usuario.isNotEmpty) {
-      _username = usuario['username'] ?? '';
-      _email = usuario['email'] ?? '';
-      _password = usuario['password'] ?? '';
-      return true;
+  Future<bool> verificarCredenciais(String email, String senha) async {
+    try {
+      if (_userService == null) {
+        await initialize();
+      }
+      
+      User? user = await _userService!.getUserByEmail(email);
+      if (user != null && user.password == senha) {
+        _username = user.name;
+        _email = user.email;
+        _password = user.password;
+        _address = user.address;
+        _phone = user.phone;
+        _preferences = user.preferences;
+        _about = user.about;
+        notifyListeners();
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print('Erro ao verificar credenciais: $e');
+      return false;
     }
-    return false;
   }
 
   String get username => _username;
   String get email => _email;
   String get password => _password;
+  String? get address => _address;
+  String? get phone => _phone;
+  List<String>? get preferences => _preferences;
+  String? get about => _about;
 }
 
 class SweetInfo extends ChangeNotifier {

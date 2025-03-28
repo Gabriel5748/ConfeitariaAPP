@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 import '../../data/chips_data.dart';
+import '../../services/providers.dart';
 
 class CadastroPage4 extends StatefulWidget {
   const CadastroPage4({super.key});
@@ -81,8 +83,15 @@ class _CadastroPage4State extends State<CadastroPage4> {
                     onSelected: (bool value) {
                       setState(() {
                         preferencias[nomePreferencia] = value;
-                        print(
-                            'Preferência "$nomePreferencia" selecionada: ${preferencias[nomePreferencia]}');
+                        
+                        // Salvar preferências selecionadas
+                        List<String> selectedPreferences = preferencias.entries
+                            .where((e) => e.value)
+                            .map((e) => e.key)
+                            .toList();
+                        
+                        Provider.of<UserData>(context, listen: false)
+                            .setPreferences(selectedPreferences);
                       });
                     },
                     backgroundColor: Color(0xFFF2E2D2), // Bege Claro

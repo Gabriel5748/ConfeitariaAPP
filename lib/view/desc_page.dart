@@ -22,7 +22,7 @@ class DescPage extends StatelessWidget {
             elevation: 0,
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios, color: AppTheme.primaryColor),
-              onPressed: () => context.go('/'),
+              onPressed: () => context.pop(),
             ),
           ),
           body: SingleChildScrollView(

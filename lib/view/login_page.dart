@@ -53,27 +53,32 @@ class _LoginPageState extends State<LoginPage> {
 
       final userInfo = Provider.of<UserData>(context, listen: false);
       
-      // Simula uma verificação de login
-      bool loginValido = false;
-      String? nomeUsuario;
+      try {
+        // Verifica se as credenciais correspondem a algum usuário cadastrado
+        bool loginValido = await userInfo.verificarCredenciais(
+          emailController.text, 
+          passwordController.text
+        );
 
-      // Verifica se as credenciais correspondem a algum usuário cadastrado
-      if (userInfo.verificarCredenciais(emailController.text, passwordController.text)) {
-        loginValido = true;
-        nomeUsuario = userInfo.username;
-      }
-
-      // Simula um delay de rede
-      await Future.delayed(Duration(seconds: 1));
-
-      setState(() {
-        _isLoading = false;
-      });
-
-      if (loginValido) {
-        context.go('/');
-      } else {
-        _showErrorDialog('Email ou senha incorretos. Por favor, verifique suas credenciais ou cadastre-se.');
+        if (loginValido) {
+          if (mounted) {
+            context.go('/home');
+          }
+        } else {
+          if (mounted) {
+            _showErrorDialog('Email ou senha incorretos');
+          }
+        }
+      } catch (e) {
+        if (mounted) {
+          _showErrorDialog('Erro ao fazer login. Tente novamente.');
+        }
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
       }
     }
   }
